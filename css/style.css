@@ -1,1 +1,70 @@
+header, nav, section, article,
+aside, footer {
+    display: block;
+}
 
+#wrapper {
+    width: 940px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 10px solid #ffffff;
+    border-radius: 8px;
+}
+
+#header {
+    width: 940px;
+    height: 130px;
+    background-color: #8fffe7;
+    border: 0px solid #000000;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+}
+
+#content {
+    width: 960px;
+    padding: 25px 0px 0px 0px;
+    overflow: hidden;
+    background-color: #eaeaea;
+}
+
+.right_box {
+    width: 210px;
+    padding: 0px 15px 15px 15px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+
+.artikel {
+    width: 640px;
+    float: left;
+    margin: 0px 20px 15px 20px;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+
+#footer {
+    clear: both;
+    width: 910px;
+    padding: 15px 15px 15px 15px;
+    margin: auto;
+    background-color: #69788b;
+    border: 0px solid #343434;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: #FFFFFF;
+    overflow: hidden;
+    text-align: center;
+}
+
+.video{
+    width: 300px;
+    height: 200px;
+}
