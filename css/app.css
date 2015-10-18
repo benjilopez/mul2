@@ -1,1 +1,55 @@
+/*
+Kluth, Lopez, Rienow
+Multimedia Engineering 2 - Übung 1
+*/
 
+
+* {  /*Werte von 'padding' und 'border' werden nicht mehr der Breite hinzugerechnet*/
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+@media screen and (min-width:600px) {
+    aside {
+        float: right;
+        width: 25%;
+    }
+    main {
+        margin-left: 25%;
+    }
+}
+@media screen and (max-width:599px) {
+    aside li {
+        display: inline;
+    }
+
+}header {
+     background-color: black;
+     color: white;
+     text-align: left;
+     padding: 5px;
+ }
+
+aside {
+    right: 0;
+    top: 0;
+    line-height: 30px;
+    background-color: #eeeeee;
+    width: 269px;
+    float: right;
+    padding: 5px;
+}
+
+main {
+    width: 350px;
+    padding: 10px;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    clear: both;
+    text-align: right;
+    padding: 5px;
+}
