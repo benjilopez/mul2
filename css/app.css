@@ -1,6 +1,6 @@
 /*
 Kluth, Lopez, Rienow
-Multimedia Engineering 2 - Übung 1
+Multimedia Engineering 2 - ï¿½bung 1
 */
 
 
@@ -42,8 +42,9 @@ aside {
 }
 
 main {
-    width: 350px;
+    width: 600px;
     padding: 10px;
+    float: left;
 }
 
 footer {
