@@ -1,13 +1,8 @@
-function vidplay(button) {
-   var video = button.parentElement.previousElementSibling;
+function vidplay(video) {
    if (video.paused) {
       video.play();
-      button.setAttribute("title", "Pause");
-      button.children[0].setAttribute("src", "img/pause.jpg");
    } else {
       video.pause();
-      button.setAttribute("title", "Play");
-      button.children[0].setAttribute("src", "img/play.jpg");
    }
 }
 
@@ -24,22 +19,33 @@ window.onload=function(){
     var rewBtns = document.getElementsByClassName("rewBtn");
     var playBtns = document.getElementsByClassName("playBtn");
     var fastFwdBtns = document.getElementsByClassName("fastFwdBtn");
+    var videos = document.getElementsByClassName("video");
     for(var i = 0; i < retartBtns.length; i++){
         retartBtns[i].addEventListener("click", function(e){
             e.preventDefault();
-            restart(e.currentTarget.parentElement.previousElementSibling);
+            restart(e.currentTarget.parentElement.parentElement.getElementsByClassName("video")[0]);
         });
         rewBtns[i].addEventListener("click", function(e){
             e.preventDefault();
-            skip(e.currentTarget.parentElement.previousElementSibling, -10);
+            skip(e.currentTarget.parentElement.parentElement.getElementsByClassName("video")[0], -10);
         });
         playBtns[i].addEventListener("click", function(e){
             e.preventDefault();
-            vidplay(e.currentTarget);
+            vidplay(e.currentTarget.parentElement.parentElement.getElementsByClassName("video")[0]);
         });
         fastFwdBtns[i].addEventListener("click", function(e){
             e.preventDefault();
-            skip(e.currentTarget.parentElement.previousElementSibling, 10);
+            skip(e.currentTarget.parentElement.parentElement.getElementsByClassName("video")[0], 10);
+        });
+        videos[i].addEventListener("pause", function(e){
+            var button = e.currentTarget.parentElement.getElementsByClassName("playBtn")[0];
+            button.setAttribute("title", "Play");
+            button.children[0].setAttribute("src", "img/play.jpg");
+        });
+        videos[i].addEventListener("play", function(e){
+            var button = e.currentTarget.parentElement.getElementsByClassName("playBtn")[0];
+            button.setAttribute("title", "Pause");
+            button.children[0].setAttribute("src", "img/pause.jpg");
         });
     }
-}
+};
