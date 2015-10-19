@@ -1,35 +1,49 @@
 /*
-Kluth, Lopez, Rienow
+Kluth, Lopez, Hörtz
 Multimedia Engineering 2 - �bung 1
 */
 
-
-* {  /*Werte von 'padding' und 'border' werden nicht mehr der Breite hinzugerechnet*/
+* {
+    /*Werte von 'padding' und 'border' werden nicht mehr der Breite hinzugerechnet*/
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-@media screen and (min-width:600px) {
+header, nav, section, article,
+aside, footer {
+    display: block;
+}
+
+@media screen and (min-width: 600px) {
     aside {
         float: right;
         width: 25%;
     }
-    main {
-        margin-left: 25%;
-    }
 }
-@media screen and (max-width:599px) {
+
+@media screen and (max-width: 599px) {
     aside li {
         display: inline;
     }
 
-}header {
-     background-color: black;
-     color: white;
-     text-align: left;
-     padding: 5px;
- }
+}
+
+.artikel {
+    width: 100%;
+    float: left;
+    margin: 0px 20px 15px 20px;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+
+header {
+    background-color: black;
+    color: white;
+    text-align: left;
+    padding: 5px;
+}
 
 aside {
     right: 0;
@@ -38,19 +52,79 @@ aside {
     background-color: #eeeeee;
     width: 269px;
     float: right;
-    padding: 5px;
+    padding: 0px 15px 15px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #c9c9c9;
+    overflow: hidden;
 }
 
 main {
-    width: 600px;
+    width: 75%;
     padding: 10px;
     float: left;
 }
 
-footer {
-    background-color: black;
-    color: white;
-    clear: both;
-    text-align: right;
-    padding: 5px;
+footer{
+    overflow: hidden;
+
+}
+
+header, footer {
+    font-size: 16px;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 3px 2px 3px #333333;
+    background-color: #8AD9FF;
+    border-radius: 8px;
+    width: 960px;
+}
+
+#header ul , #footer ul {
+    height: auto;
+    padding: 8px 0px;
+    margin: 0px;
+}
+
+#header li, #footer li {
+    display: inline;
+    padding: 20px;
+}
+
+#header a, #footer a {
+    text-decoration: none;
+    color: #00F;
+    padding: 8px 8px 8px 8px;
+}
+
+#header a:hover, #footer a:hover {
+    color: #F90;
+    background-color: #FFF;
+}
+
+.right_box {
+    width: 210px;
+    padding: 0px 15px 15px 15px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+
+#content {
+    width: 960px;
+    padding: 25px 0px 0px 0px;
+    overflow: hidden;
+    background-color: #eaeaea;
+}
+
+#wrapper {
+    width: 940px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 10px solid #ffffff;
+    border-radius: 8px;
 }

@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head lang="de">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="css/app.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
     <script type="text/javascript" src="js/app.js"></script>
     <title>Mul2</title>
-    <meta name="description" content="Mul2 is the world's leading page with the funiest videos in the internet." />
+    <meta name="description" content="Mul2 is the world's leading page with the funiest videos in the internet."/>
     <meta name="keywords" content="mul2, internet videos, online videos, funny videos"/>
     <meta name="robots" content="noodp,noydir"/>
 </head>
 <body>
-    <header>
+
+<div id="wrapper">
+
+    <header id="header">
         <img src="img/logo.png" height="75" title="Mul2 - Logo"/>
         <nav>
             <ul>
@@ -27,67 +30,105 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <section>
-            <h2>Video 1</h2>
-            <video controls class="video"> 
-                <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm> 
-            </video>
-            <div class="buttonbar">
-                <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
-                <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
-                <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
-                <a class="fastFwdBtn" href="#" title="Fast Forward"><img src="img/fastforward.jpg" width="30"/></a>
-            </div>
-            <h3>Description:</h3>
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        </section>
-        <section>
-            <h2>Video 2</h2>
-            <video controls class="video"> 
-                <source src=http://techslides.com/demos/sample-videos/small.ogv type=video/ogg>
-            </video>
-            <div class="buttonbar">
-                <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
-                <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
-                <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
-                <a class="fastFwdBtn" href="#" title="Fast Forward"><img src="img/fastforward.jpg" width="30"/></a>
-            </div>
-            <h3>Description:</h3>
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        </section>
-        <section>
-            <h2>Video 3</h2>
-            <video controls class="video"> 
-                <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>
-            </video>
-            <div class="buttonbar">
-                <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
-                <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
-                <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
-                <a class="fastFwdBtn" href="#" title="Fast Forward"><img src="img/fastforward.jpg" width="30"/></a>
-            </div>
-            <h3>Description:</h3>
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        </section>
-    </main>
-    <aside>
-        <section>
-            <h3>Search</h3>
-            <div><input type="text" placeholder="search..."/></div>
-        </section>
-        <section>
-            <h3>Social Media</h3>
-            <div><a href="http://www.facebook.com">Facebook</a></div>
-            <div><a href="http://www.twitter.com">Twitter</a></div>
-            <div><a href="http://www.instagram.com">Instagram</a></div>
-        </section>
-        <section>
-            <h3>Advertising</h3>
-            <div><a href="http://www.gmail.com"><img src="img/banner_160x600.gif" title="Gmail"/></a></div>
-        </section>
-    </aside>
-    <footer>
+
+    <div id="content">
+
+        <main>
+            <section>
+                <h2>Video 1 (WebM)</h2>
+                <video class="video" id="video_webm">
+                    <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm>
+                </video>
+                <div class="buttonbar">
+                    <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
+                    <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
+                    <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
+                    <a class="fastFwdBtn" href="#" title="Fast Forward"><img src="img/fastforward.jpg" width="30"/></a>
+                </div>
+                <h3>Description:</h3>
+
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore
+                    et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+                    rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
+                    ipsum
+                    dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                    dolore
+                    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                    Stet
+                    clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </section>
+            <section>
+                <h2>Video 2 (OGG)</h2>
+                <video class="video" id="video_ogg">
+                    <source src=http://techslides.com/demos/sample-videos/small.ogv type=video/ogg>
+                </video>
+                <div class="buttonbar">
+                    <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
+                    <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
+                    <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
+                    <a class="fastFwdBtn" href="#" title="Fast Forward"><img src="img/fastforward.jpg" width="30"/></a>
+                </div>
+                <h3>Description:</h3>
+
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore
+                    et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+                    rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
+                    ipsum
+                    dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                    dolore
+                    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                    Stet
+                    clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </section>
+            <section>
+                <h2>Video 3 (MP4)</h2>
+                <video class="video" id="video_mp4">
+                    <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>
+                </video>
+                <div class="buttonbar">
+                    <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
+                    <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
+                    <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
+                    <a class="fastFwdBtn" href="#" title="Fast Forward"><img src="img/fastforward.jpg" width="30"/></a>
+                </div>
+                <h3>Description:</h3>
+
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore
+                    et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+                    rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
+                    ipsum
+                    dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                    dolore
+                    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                    Stet
+                    clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </section>
+        </main>
+        <aside class="right_box">
+            <section>
+                <h3>Search</h3>
+
+                <div><input type="text" placeholder="search..."/></div>
+            </section>
+            <section>
+                <h3>Social Media</h3>
+
+                <div><a href="http://www.facebook.com">Facebook</a></div>
+                <div><a href="http://www.twitter.com">Twitter</a></div>
+                <div><a href="http://www.instagram.com">Instagram</a></div>
+            </section>
+            <section>
+                <h3>Advertising</h3>
+
+                <div><a href="http://www.gmail.com"><img src="img/banner_160x600.gif" title="Gmail"/></a></div>
+            </section>
+        </aside>
+
+    </div>
+    <footer id="footer">
         <nav>
             <ul>
                 <li>
@@ -101,6 +142,10 @@
                 </li>
             </ul>
         </nav>
+        &copy; 2015 Denny Hörtz & XX & XX
     </footer>
+
+</div>
+
 </body>
 </html>
