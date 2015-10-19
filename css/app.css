@@ -75,3 +75,14 @@ Multimedia Engineering 2 - Übung 1
 #header a:hover, #footer a:hover, #aside a:hover{
     color: #F90;
 }
+#logo {
+    display: inline;
+}
+#main_menu {
+    display: inline;
+}
+#main_menu ul{
+    display: inline;
+    position: relative;
+    top: -25px;
+}
