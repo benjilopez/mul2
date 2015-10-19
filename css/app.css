@@ -86,3 +86,21 @@ Multimedia Engineering 2 - Übung 1
     position: relative;
     top: -25px;
 }
+
+#time_1, #time_2, #time_3 {
+    font-size: 25px;
+    float: right;
+    margin-right: 180px;
+    vertical-align: middle;
+}
+
+#bar_1, #bar_2, #bar_3 {
+    width: 562px;
+    height: 10px;
+    background-color: #8AD9FF;
+    border: 1px solid #000;
+}
+
+.video {
+    border: 1px solid #000;
+}

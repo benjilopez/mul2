@@ -34,10 +34,13 @@
     <main id="main">
         <section>
             <h2>Video 1 (WebM)</h2>
-            <video class="video" id="video_webm">
+            <video class="video" id="video_webm" ontimeupdate="timeLine_webm()">
                 <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm>
             </video>
+            <div id="bar_1"></div>
+            </br>
             <div class="buttonbar">
+                <p id="time_1">0:00</p>
                 <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
                 <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
                 <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
@@ -60,10 +63,13 @@
 
         <section>
             <h2>Video 2 (OGG)</h2>
-            <video class="video" id="video_ogg">
+            <video class="video" id="video_ogg" ontimeupdate="timeLine_ogg()">
                 <source src=http://techslides.com/demos/sample-videos/small.ogv type=video/ogg>
             </video>
+            <div id="bar_2"></div>
+            </br>
             <div class="buttonbar">
+                <p id="time_2">0:00</p>
                 <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
                 <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
                 <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
@@ -86,10 +92,14 @@
 
         <section>
             <h2>Video 3 (MP4)</h2>
-            <video class="video" id="video_mp4">
+            <video class="video" id="video_mp4" ontimeupdate="timeLine_mp4()">
                 <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>
             </video>
+            <br>
+            <div id="bar_3"> </div>
+            </br>
             <div class="buttonbar">
+                <p id="time_3">0:00</p>
                 <a class="restartBtn" href="#" title="Replay"><img src="img/replay.jpg" width="30"/></a>
                 <a class="rewBtn" href="#" title="Rewind"><img src="img/rewind.jpg" width="30"/></a>
                 <a class="playBtn" href="#" title="Play"><img src="img/play.jpg" width="30"/></a>
