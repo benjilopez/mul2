@@ -1,130 +1,154 @@
 /*
-Kluth, Lopez, Hörtz
-Multimedia Engineering 2 - �bung 1
+Hörtz, Kluth, Lopez
+Multimedia Engineering 2 - Übung 1
 */
 
+/*Werte von 'padding' und 'border' werden nicht mehr der Breite hinzugerechnet*/
 * {
-    /*Werte von 'padding' und 'border' werden nicht mehr der Breite hinzugerechnet*/
     -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
-header, nav, section, article,
-aside, footer {
-    display: block;
-}
-
-@media screen and (min-width: 600px) {
-    aside {
+@media only screen and (min-width: 990px){
+    #wrapper {
+        width: 960px;
+    }
+    #main {
+        float: left;
+        margin-left: 9%;
+    }
+    #aside {
         float: right;
-        width: 25%;
     }
-}
-
-@media screen and (max-width: 599px) {
-    aside li {
+    #header, #footer {
+        width: 958px;
+    }
+    .vidSection {
+        width: 562px;
+        margin: 0 auto;
+    }
+    .timebar {
+        width: 562px;
+    }
+    #main_menu ul{
         display: inline;
+        position: relative;
+        top: -25px;
+    }
+}
+
+@media only screen and (max-width: 989px){
+    #wrapper {
+        width: auto;
+    }
+    #header, #footer {
+        width: auto;
+    }
+    #logo {
+         display: flex;
+     }
+    #main_menu {
+        display: table;
+    }
+    .vidSection {
+        width: 562px;
+        margin: 0 auto;
     }
 
 }
 
-.artikel {
-    width: 100%;
-    float: left;
-    margin: 0px 20px 15px 20px;
-    background-color: #eaeaea;
-    border-bottom: 1px solid #c9c9c9;
-    overflow: hidden;
+@media only screen and (max-width: 610px){
+    .vidSection {
+        width: auto;
+    }
+    .video {
+        width: 100%;
+        height: 100%;
+    }
+    .timebar {
+        width: auto;
+    }
+    #logo {
+        display: flex;
+    }
 }
 
-header {
-    background-color: black;
-    color: white;
-    text-align: left;
-    padding: 5px;
-}
+#wrapper{
+     border-radius: 8px;
+     border: 1px solid #000;
+     margin: 0 auto;
+ }
 
-aside {
-    right: 0;
-    top: 0;
-    line-height: 30px;
-    background-color: #eeeeee;
-    width: 269px;
-    float: right;
-    padding: 0px 15px 15px 15px;
-    margin-bottom: 15px;
-    border: 1px solid #c9c9c9;
-    overflow: hidden;
-}
-
-main {
-    width: 75%;
+#main {
+    width: auto;
     padding: 10px;
-    float: left;
+}
+#main a:hover {
+    filter: invert(100%);
 }
 
-footer{
+#aside{
+    width: 208px;
+    line-height: 30px;
+    padding: 15px 15px 15px 15px;
+    border: 1px solid #777;
+    background-color: #999;
     overflow: hidden;
-
+    margin: 0 auto;
 }
 
-header, footer {
+#header, #footer {
     font-size: 16px;
     font-family: Tahoma, Geneva, sans-serif;
     font-weight: bold;
     text-align: center;
-    text-shadow: 3px 2px 3px #333333;
+    text-shadow: 1px 1px 1px #777;
     background-color: #8AD9FF;
-    border-radius: 8px;
-    width: 960px;
+    border: 1px solid #888;
+    overflow: hidden;
 }
-
-#header ul , #footer ul {
-    height: auto;
-    padding: 8px 0px;
-    margin: 0px;
+#header {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
-
+#footer {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 #header li, #footer li {
     display: inline;
-    padding: 20px;
+    padding: 20px 20px 20px 20px;
+    height: auto;
 }
-
-#header a, #footer a {
+#header a, #footer a, #aside a{
     text-decoration: none;
     color: #00F;
     padding: 8px 8px 8px 8px;
 }
-
-#header a:hover, #footer a:hover {
+#header a:hover, #footer a:hover, #aside a:hover{
     color: #F90;
-    background-color: #FFF;
 }
 
-.right_box {
-    width: 210px;
-    padding: 0px 15px 15px 15px;
-    margin-bottom: 15px;
-    background-color: #ffffff;
-    border: 1px solid #c9c9c9;
-    overflow: hidden;
+#logo {
+    display: inline;
+}
+#main_menu {
+    display: inline;
 }
 
-#content {
-    width: 960px;
-    padding: 25px 0px 0px 0px;
-    overflow: hidden;
-    background-color: #eaeaea;
+.timeCounter {
+    font-size: 25px;
+    float: right;
+    clear: both;
+}
+.timebar {
+    height: 10px;
+    background-color: #8AD9FF;
+    border: 1px solid #000;
 }
 
-#wrapper {
-    width: 940px;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    background-color: #ffffff;
-    border: 10px solid #ffffff;
-    border-radius: 8px;
+.video {
+    border: 1px solid #000;
+
 }
