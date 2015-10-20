@@ -14,41 +14,19 @@ function skip(video, value) {
     video.currentTime += value;
 }
 
-function timeLine_webm() {
-    curTime = document.getElementById("video_webm").currentTime;
-    durTime = document.getElementById("video_webm").duration;
-    barWidth = curTime / durTime * 562;
-    document.getElementById("bar_1").style.width = barWidth + "px";
+function updateTimeLine(video){
+    var curTime = video.currentTime;
+    var durTime = video.duration;
+    var barWidth = curTime / durTime * 562;
+    var timebar = video.parentElement.getElementsByClassName("timebar")[0];
+    var counter = video.parentElement.getElementsByClassName("timeCounter")[0];
+    timebar.style.width = barWidth + "px";
     curTime = curTime.toFixed(0);
-    seconds = curTime % 60;
-    minutes = (curTime - seconds)/60;
+    var seconds = curTime % 60;
+    var minutes = (curTime - seconds)/60;
     if (seconds < 10) seconds = "0" + seconds;
     curTime = minutes + ":" + seconds;
-    document.getElementById("time_1").innerHTML = curTime;
-}
-function timeLine_ogg() {
-    curTime = document.getElementById("video_ogg").currentTime;
-    durTime = document.getElementById("video_ogg").duration;
-    barWidth = curTime / durTime * 562;
-    document.getElementById("bar_2").style.width = barWidth + "px";
-    curTime = curTime.toFixed(0);
-    seconds = curTime % 60;
-    minutes = (curTime - seconds)/60;
-    if (seconds < 10) seconds = "0" + seconds;
-    curTime = minutes + ":" + seconds;
-    document.getElementById("time_2").innerHTML = curTime;
-}
-function timeLine_mp4() {
-    curTime = document.getElementById("video_mp4").currentTime;
-    durTime = document.getElementById("video_mp4").duration;
-    barWidth = curTime / durTime * 562;
-    document.getElementById("bar_3").style.width = barWidth + "px";
-    curTime = curTime.toFixed(0);
-    seconds = curTime % 60;
-    minutes = (curTime - seconds)/60;
-    if (seconds < 10) seconds = "0" + seconds;
-    curTime = minutes + ":" + seconds;
-    document.getElementById("time_3").innerHTML = curTime;
+    counter.innerHTML = curTime;
 }
 
 window.onload=function(){
@@ -83,6 +61,9 @@ window.onload=function(){
             var button = e.currentTarget.parentElement.getElementsByClassName("playBtn")[0];
             button.setAttribute("title", "Pause");
             button.children[0].setAttribute("src", "img/pause.jpg");
+        });
+        videos[i].addEventListener("timeupdate", function(e){
+            updateTimeLine(e.currentTarget);
         });
     }
 };

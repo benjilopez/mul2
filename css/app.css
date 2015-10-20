@@ -87,14 +87,14 @@ Multimedia Engineering 2 - Übung 1
     top: -25px;
 }
 
-#time_1, #time_2, #time_3 {
+.timeCounter {
     font-size: 25px;
     float: right;
     margin-right: 180px;
     vertical-align: middle;
 }
 
-#bar_1, #bar_2, #bar_3 {
+.timebar {
     width: 562px;
     height: 10px;
     background-color: #8AD9FF;
