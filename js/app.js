@@ -25,6 +25,7 @@ function updateTimeLine(video){
     var seconds = curTime % 60;
     var minutes = (curTime - seconds)/60;
     if (seconds < 10) seconds = "0" + seconds;
+    if (minutes < 10) minutes = "0" + minutes;
     curTime = minutes + ":" + seconds;
     counter.innerHTML = curTime;
 }
