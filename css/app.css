@@ -38,19 +38,23 @@ Multimedia Engineering 2 - Übung 1
     }
 }
 
-@media only screen and (max-width: 989px){
+@media only screen and (max-width: 989px) {
     #wrapper {
         width: auto;
     }
+
     #header, #footer {
         width: auto;
     }
+
     #logo {
-         display: flex;
-     }
+        display: flex;
+    }
+
     #main_menu {
         display: table;
     }
+
     .vidSection {
         width: 562px;
         margin: 0 auto;
@@ -72,6 +76,11 @@ Multimedia Engineering 2 - Übung 1
     #logo {
         display: flex;
     }
+
+    #main_menu li, #main_menu li {
+        width: auto;
+
+    }
 }
 
 #wrapper{
@@ -79,6 +88,10 @@ Multimedia Engineering 2 - Übung 1
      border: 1px solid #000;
      margin: 0 auto;
  }
+
+ul{
+    padding-left: 0px;
+}
 
 #main {
     width: auto;
@@ -125,6 +138,7 @@ Multimedia Engineering 2 - Übung 1
     text-decoration: none;
     color: #00F;
     padding: 8px 8px 8px 8px;
+    white-space:nowrap;
 }
 #header a:hover, #footer a:hover, #aside a:hover{
     color: #F90;
