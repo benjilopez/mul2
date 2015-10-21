@@ -15,9 +15,11 @@ function skip(video, value) {
 }
 
 function updateTimeLine(video){
+    //alert("width: " + document.getElementsByClassName("video")[0].clientWidth);
     var curTime = video.currentTime;
     var durTime = video.duration;
-    var barWidth = curTime / durTime * 562;
+    //var x = document.getElementsByTagName("H1")[0].getAttribute("class");
+    var barWidth = curTime / durTime * document.getElementsByClassName("vidSection")[0].clientWidth;
     var timebar = video.parentElement.getElementsByClassName("timebar")[0];
     var counter = video.parentElement.getElementsByClassName("timeCounter")[0];
     timebar.style.width = barWidth + "px";
