@@ -4,7 +4,7 @@ var app = express();
 /**
  * Catch all request
  */
-app.use('/', function (req, res) {
+app.use('*', function (req, res) {
     res.send('<!DOCTYPE html>' +
         '<html lang="de">' +
         '<head><meta charset="utf-8"></head>' +
