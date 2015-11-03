@@ -1,5 +1,11 @@
 var express = require('express');
 var app = express();
+var path = require("path");
+
+/**
+ * Allow static request to /public folder
+ */
+app.use('/public', express.static(path.join(__dirname, '..', '/public')));
 
 /**
  * Catch all request
@@ -21,4 +27,5 @@ var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log("'Hello World' app is ready and listening at http://%s:%s", host, port);
+    console.log("" + path.join(__dirname, '..', '/public'));
 });
