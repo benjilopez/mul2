@@ -1,40 +1,12 @@
 var express = require('express');
 var app = express();
 
-// Route anlegen
-app.get('/', function (req, res) {
-    res.send('<!DOCTYPE html>' +
-        '<html lang="de">' +
-        '<head><meta charset="utf-8"></head>' +
-        '<body><h1>Hello World!</h1></body>' +
-        '</html>'
-    );
-});
 
-// accept POST request on the homepage
-app.post('/', function (req, res) {
+app.use('/', function (req, res) {
     res.send('<!DOCTYPE html>' +
         '<html lang="de">' +
         '<head><meta charset="utf-8"></head>' +
-        '<body><h1>Hello World!</h1></body>' +
-        '</html>'
-    );
-});
-
-app.put('/', function (req, res) {
-    res.send('<!DOCTYPE html>' +
-        '<html lang="de">' +
-        '<head><meta charset="utf-8"></head>' +
-        '<body><h1>Hello World!</h1></body>' +
-        '</html>'
-    );
-});
-
-app.delete('/user', function (req, res) {
-    res.send('<!DOCTYPE html>' +
-        '<html lang="de">' +
-        '<head><meta charset="utf-8"></head>' +
-        '<body><h1>Hello World!</h1></body>' +
+        '<body><h1>Hello World</h1></body>' +
         '</html>'
     );
 });
