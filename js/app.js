@@ -8,6 +8,14 @@ var path = require("path");
 app.use('/public', express.static(path.join(__dirname, '..', '/public')));
 
 /**
+ * retrieve the current servertime as timestamp
+ */
+app.get("/time", function(req, res){
+    res.setHeader('content-type', 'text/plain');
+    res.send(Date.now().toString());
+});
+
+/**
  * Catch all request
  */
 app.use('*', function (req, res) {
