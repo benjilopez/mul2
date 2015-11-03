@@ -7,23 +7,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "authors": {
-    "names": [
-      "Denny Hörtz",
-      "Toni Kluth",
-      "Benjamin Lopez"
-    ],
-    "matriculation numbers": [
-      "776534",
-      "780025",
-      "832016"
-    ],
-    "emails": [
-      "d.hoertz@gmx.de",
-      "toni.kluth@gmx.de",
-      "benjilopez@gmail.com"
-    ]
-  },
+  "contributors": [
+    {
+      "name": "Denny Hoertz",
+      "email": "d.hoertz@gmx.de",
+      "matriculation numbers": "776534"
+    },
+    {
+      "name": "Toni Kluth",
+      "email": "toni.kluth@gmx.de",
+      "matriculation numbers": "780025"
+    },
+    {
+      "name": "Benjamin Lopez",
+      "email": "benjilopez@gmail.com",
+      "matriculation numbers": "832016"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/benjilopez/mul2/issues"
   },

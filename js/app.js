@@ -1,7 +1,9 @@
 var express = require('express');
 var app = express();
 
-
+/**
+ * Catch all request
+ */
 app.use('/', function (req, res) {
     res.send('<!DOCTYPE html>' +
         '<html lang="de">' +
@@ -11,6 +13,10 @@ app.use('/', function (req, res) {
     );
 });
 
+/**
+ * Start listening to a specific port
+ * @type {http.Server}
+ */
 var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = server.address().port;
