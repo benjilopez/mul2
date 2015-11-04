@@ -1,7 +1,9 @@
-/*
-Hörtz, Kluth, Lopez
-Multimedia Engineering 2 - Übung 1
-*/
+/**
+ * Mul2 website design css
+ * @authors Denny Hörtz, Benjamin Lopez, Toni Kluth
+ * @created 4.11.2015
+ * @type {*|exports|module.exports}
+ */
 
 /*Werte von 'padding' und 'border' werden nicht mehr der Breite hinzugerechnet*/
 * {

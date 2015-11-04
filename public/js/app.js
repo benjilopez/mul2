@@ -1,3 +1,9 @@
+/**
+ * Mul2 website functionality
+ * @authors Denny Hörtz, Benjamin Lopez, Toni Kluth
+ * @created 4.11.2015
+ * @type {*|exports|module.exports}
+ */
 function vidplay(video) {
    if (video.paused) {
       video.play();

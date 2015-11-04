@@ -1,3 +1,9 @@
+/**
+ * Mul2 NodeJS Server
+ * @authors Denny Hörtz, Benjamin Lopez, Toni Kluth
+ * @created 4.11.2015
+ * @type {*|exports|module.exports}
+ */
 var express = require('express');
 var app = express();
 var path = require("path");
