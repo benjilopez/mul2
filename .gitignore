@@ -1,5 +1,5 @@
 /.idea/*
 /nbproject/
-/nbproject/private/
+/nbproject/*
 .idea/vcs.xml
 .idea/misc.xml
