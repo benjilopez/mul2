@@ -1,0 +1,48 @@
+{
+  "name": "Uebung_2",
+  "version": "1.0.0",
+  "description": "A small 'Hello World' example with express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "contributors": [
+    {
+      "name": "Denny Hoertz",
+      "email": "d.hoertz@gmx.de",
+      "matriculation numbers": "776534"
+    },
+    {
+      "name": "Toni Kluth",
+      "email": "toni.kluth@gmx.de",
+      "matriculation numbers": "780025"
+    },
+    {
+      "name": "Benjamin Lopez",
+      "email": "benjilopez@gmail.com",
+      "matriculation numbers": "832016"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/benjilopez/mul2/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjilopez/mul2.git"
+  },
+  "keywords": [
+    "mul2",
+    "node.js",
+    "express",
+    "wayne",
+    "hello world",
+    "lol",
+    "swag",
+    "#konert"
+  ]
+}
