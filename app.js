@@ -63,15 +63,19 @@ app.use(function(req, res, next) {
 
 
 // Routes ***************************************
-
+// Tweets ***************************************
 app.get('/tweets', function(req,res,next) {
     res.json(store.select('tweets'));
 });
 
 app.post('/tweets', function(req,res,next) {
-    var id = store.insert('tweets', req.body); // TODO check that the element is really a tweet!
-    // set code 201 "created" and send the item back
-    res.status(201).json(store.select('tweets', id));
+    if (req.body.message === undefined) {
+        res.status(400).json("Bad request");
+    } else {
+        var id = store.insert('tweets', req.body); // TODO check that the element is really a tweet! ***DONE***
+        // set code 201 "created" and send the item back
+        res.status(201).json(store.select('tweets', id));
+    }
 });
 
 
@@ -89,6 +93,35 @@ app.put('/tweets/:id', function(req,res,next) {
     res.status(200).end();
 });
 
+// Users ***************************************
+app.get('/users', function(req,res,next) {
+    res.json(store.select('users'));
+});
+
+app.post('/users', function(req,res,next) {
+    if (req.body.firstname === undefined || req.body.lastname === undefined) {
+        res.status(400).json("Bad request");
+    } else {
+        var id = store.insert('users', req.body); // TODO check that the element is really a tweet! ***DONE***
+        // set code 201 "created" and send the item back
+        res.status(201).json(store.select('users', id));
+    }
+});
+
+
+app.get('/users/:id', function(req,res,next) {
+    res.json(store.select('users', req.params.id));
+});
+
+app.delete('/users/:id', function(req,res,next) {
+    store.remove('users', req.params.id);
+    res.status(200).end();
+});
+
+app.put('/users/:id', function(req,res,next) {
+    store.replace('users', req.params.id, req.body);
+    res.status(200).end();
+});
 
 // TODOs
 // TODO: some HTTP error responses in case not found
