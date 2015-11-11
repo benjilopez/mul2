@@ -124,11 +124,12 @@ app.put('/users/:id', function(req,res,next) {
 });
 
 // Users:ID/tweets ***************************************
-app.get('/users/:id/tweets', function(req,res,next) {
-    var userID = store.select('users', req.params.id);
-    if (store.select('tweets', req.params.href) === "http://localhost:3000/users/)" + userID) {
-        res.json(store.select('tweets', req.params.id));
-    }
+app.get('/users/:creator_id/tweets', function(req,res,next) {
+    var userID = store.select('tweets', req.params.creator_id);
+    res.json(userID);
+   // if (store.select('tweets', req.params.creator_id) === userID) {
+     //   res.json(store.select('tweets', req.params.creator_id));
+   // }
 });
 
 // TODOs
