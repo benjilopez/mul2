@@ -41,11 +41,17 @@ var tweets = [
 var users = [
     {   id: globalCounter(),
         firstname: "Super",
-        lastname: "Woman"
+        lastname: "Woman",
+        tweets: {
+            href: "http://localhost:3000/users/104/tweets"
+        }
     },
     {   id: globalCounter(),
         firstname: "Jane",
-        lastname: "Doe"
+        lastname: "Doe",
+        tweets: {
+            href: "http://localhost:3000/users/105/tweets"
+        }
     }
 ];
 

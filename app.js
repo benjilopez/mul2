@@ -69,7 +69,7 @@ app.get('/tweets', function(req,res,next) {
 });
 
 app.post('/tweets', function(req,res,next) {
-    if (req.body.message === undefined) {
+    if (req.body.message === undefined || req.body.message === "") {
         res.status(400).json("Bad request");
     } else {
         var id = store.insert('tweets', req.body); // TODO check that the element is really a tweet! ***DONE***
@@ -78,7 +78,7 @@ app.post('/tweets', function(req,res,next) {
     }
 });
 
-
+// Tweets:ID ***************************************
 app.get('/tweets/:id', function(req,res,next) {
     res.json(store.select('tweets', req.params.id));
 });
@@ -99,7 +99,7 @@ app.get('/users', function(req,res,next) {
 });
 
 app.post('/users', function(req,res,next) {
-    if (req.body.firstname === undefined || req.body.lastname === undefined) {
+    if (req.body.firstname === undefined || req.body.lastname === undefined || req.body.firstname === "" || req.body.lastname === "") {
         res.status(400).json("Bad request");
     } else {
         var id = store.insert('users', req.body); // TODO check that the element is really a tweet! ***DONE***
@@ -108,7 +108,7 @@ app.post('/users', function(req,res,next) {
     }
 });
 
-
+// Users:ID ***************************************
 app.get('/users/:id', function(req,res,next) {
     res.json(store.select('users', req.params.id));
 });
@@ -121,6 +121,14 @@ app.delete('/users/:id', function(req,res,next) {
 app.put('/users/:id', function(req,res,next) {
     store.replace('users', req.params.id, req.body);
     res.status(200).end();
+});
+
+// Users:ID/tweets ***************************************
+app.get('/users/:id/tweets', function(req,res,next) {
+    var userID = store.select('users', req.params.id);
+    if (store.select('tweets', req.params.href) === "http://localhost:3000/users/)" + userID) {
+        res.json(store.select('tweets', req.params.id));
+    }
 });
 
 // TODOs
