@@ -27,12 +27,14 @@ var globalCounter = (function() {
 var tweets = [
     {   id: globalCounter(),
         message: "Hello world tweet",
+        creator_id: 103,
         creator: {
             href: "http://localhost:3000/users/103"
         }
     },
     {   id: globalCounter(),
         message: "Another nice tweet",
+        creator_id: 104,
         creator: {
             href: "http://localhost:3000/users/104"
         }
