@@ -124,8 +124,8 @@ app.put('/users/:id', function(req,res,next) {
 });
 
 // Users:ID/tweets ***************************************
-app.get('/users/:creator_id/tweets', function(req,res,next) {
-    var userID = store.select('tweets', req.params.creator_id);
+app.get('/users/:user_id/tweets', function(req,res,next) {
+    var userID = store.select('tweets', req.params.user_id, "user_id");
     res.json(userID);
    // if (store.select('tweets', req.params.creator_id) === userID) {
      //   res.json(store.select('tweets', req.params.creator_id));

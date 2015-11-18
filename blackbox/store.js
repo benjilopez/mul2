@@ -27,33 +27,21 @@ var globalCounter = (function() {
 var tweets = [
     {   id: globalCounter(),
         message: "Hello world tweet",
-        creator_id: 103,
-        creator: {
-            href: "http://localhost:3000/users/103"
-        }
+        user_id: 103
     },
     {   id: globalCounter(),
         message: "Another nice tweet",
-        creator_id: 104,
-        creator: {
-            href: "http://localhost:3000/users/104"
-        }
+        user_id: 104
     }
 ];
 var users = [
     {   id: globalCounter(),
         firstname: "Super",
-        lastname: "Woman",
-        tweets: {
-            href: "http://localhost:3000/users/103/tweets"
-        }
+        lastname: "Woman"
     },
     {   id: globalCounter(),
         firstname: "Jane",
-        lastname: "Doe",
-        tweets: {
-            href: "http://localhost:3000/users/104/tweets"
-        }
+        lastname: "Doe"
     }
 ];
 
@@ -69,6 +57,35 @@ var checkElement = function(element) {
     }
 };
 
+// appending links info to the elemens
+var appendLinksInfo = function(type, element){
+    switch (type){
+        case "users":
+            element.links = [{
+                    rel: "self",
+                    href: "http://localhost:3000/users/" + element.id + "/"
+                }, {
+                    rel: "user.tweets",
+                    href: "http://localhost:3000/users/" + element.id + "/tweets/"
+                }
+            ];
+            break;
+        case "tweets":
+            element.links = [{
+                rel: "self",
+                href: "http://localhost:3000/tweets/" + element.id + "/"
+            }, {
+                rel: "user",
+                href: "http://localhost:3000/users/" + element.user_id + "/"
+            },{
+                rel: "user.tweets",
+                href: "http://localhost:3000/users/" + element.user_id + "/tweets/"
+            }
+            ];
+            break;
+    }
+    return element;
+};
 var store = {
 
 
@@ -78,14 +95,27 @@ var store = {
      * @param {string or number} id - (optional) ID of element to select only one
      * @returns {[],{}, undefined} - undefined if nothing found, array of objects or one object only if ID was given
      */
-    select: function(type, id) {
+    select: function(type, id, id_type) {
         var list = memory[type];
         id = parseInt(id);
         if (list != undefined && list.length > 0 && !isNaN(id)) {
-            list = list.filter(function(element) {
-                return element.creator_id === id;
+            if(id_type !== undefined && id_type === "user_id"){
+                list = list.filter(function (element) {
+                    return element.user_id === id;
+                });
+                list =  (list.length === 0)? undefined: list
+            } else {
+                list = list.filter(function (element) {
+                    return element.id === id;
+                });
+                return  (list.length === 0)? undefined: appendLinksInfo(type, list[0])
+            }
+            ; // only return the 1 found element; prevent empty []
+        }
+        if(list != undefined){
+            list.forEach(function (element) {
+                return appendLinksInfo(type, element);
             });
-            list =  (list.length === 0)? undefined: list; // only return the 1 found element; prevent empty []
         }
         return list; // may contain undefined, object or array;
     },
