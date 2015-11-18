@@ -43,11 +43,17 @@ var tweets = [
 var users = [
     {   id: globalCounter(),
         firstname: "Super",
-        lastname: "Woman"
+        lastname: "Woman",
+        tweets: {
+            href: "http://localhost:3000/users/103/tweets"
+        }
     },
     {   id: globalCounter(),
         firstname: "Jane",
-        lastname: "Doe"
+        lastname: "Doe",
+        tweets: {
+            href: "http://localhost:3000/users/104/tweets"
+        }
     }
 ];
 
@@ -77,9 +83,9 @@ var store = {
         id = parseInt(id);
         if (list != undefined && list.length > 0 && !isNaN(id)) {
             list = list.filter(function(element) {
-                return element.id === id;
+                return element.creator_id === id;
             });
-            list =  (list.length === 0)? undefined: list[0]; // only return the 1 found element; prevent empty []
+            list =  (list.length === 0)? undefined: list; // only return the 1 found element; prevent empty []
         }
         return list; // may contain undefined, object or array;
     },
