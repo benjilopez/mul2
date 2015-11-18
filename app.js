@@ -95,7 +95,14 @@ app.put('/tweets/:id', function(req,res,next) {
 
 // Users ***************************************
 app.get('/users', function(req,res,next) {
-    res.json(store.select('users'));
+    var users = store.select('users');
+    if(req.param('expand') === 'tweets') {
+        console.log("expand");
+        users.forEach(function(element){
+           element.tweets = store.select('tweets', element.id, "user_id");
+        });
+    }
+    res.json(users);
 });
 
 app.post('/users', function(req,res,next) {
@@ -110,7 +117,11 @@ app.post('/users', function(req,res,next) {
 
 // Users:ID ***************************************
 app.get('/users/:id', function(req,res,next) {
-    res.json(store.select('users', req.params.id));
+    var users = store.select('users', req.params.id);
+    if(req.param('expand') === 'tweets') {
+        users.tweets = store.select('tweets', users.id, "user_id");
+    }
+    res.json(users);
 });
 
 app.delete('/users/:id', function(req,res,next) {
