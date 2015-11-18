@@ -27,11 +27,23 @@ var globalCounter = (function() {
 var tweets = [
     {   id: globalCounter(),
         message: "Hello world tweet",
-        user_id: 103
+        user_id: 106
     },
     {   id: globalCounter(),
         message: "Another nice tweet",
-        user_id: 104
+        user_id: 107
+    },
+    {   id: globalCounter(),
+        message: "I like ice cream",
+        user_id: 108
+    },
+    {   id: globalCounter(),
+        message: "Justin Bieber is canadian!",
+        user_id: 106
+    },
+    {   id: globalCounter(),
+        message: "I love you Emma Stone <3",
+        user_id: 106
     }
 ];
 var users = [
@@ -42,6 +54,11 @@ var users = [
     {   id: globalCounter(),
         firstname: "Jane",
         lastname: "Doe"
+    }
+    ,
+    {   id: globalCounter(),
+        firstname: "Albert",
+        lastname: "Einstein"
     }
 ];
 
@@ -61,6 +78,7 @@ var checkElement = function(element) {
 var appendLinksInfo = function(type, element){
     switch (type){
         case "users":
+            element.href = "http://localhost:3000/users/" + element.id + "/"
             element.links = [{
                     rel: "self",
                     href: "http://localhost:3000/users/" + element.id + "/"
@@ -71,6 +89,7 @@ var appendLinksInfo = function(type, element){
             ];
             break;
         case "tweets":
+            element.href = "http://localhost:3000/tweets/" + element.id + "/"
             element.links = [{
                 rel: "self",
                 href: "http://localhost:3000/tweets/" + element.id + "/"
