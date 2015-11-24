@@ -1,14 +1,16 @@
 {
-  "name": "Uebung_3",
-  "version": "1.0.0",
-  "description": "A simple prototypical REST API sceleton for exercises.",
+  "name": "U4CodePack",
+  "licence": "CC BY-SA 4.0",
+  "version": "0.0.1",
+  "description": "Initial code set for exercise 4 (implementing an REST API after designed mocha tests)",
   "private": true,
-  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha"
   },
-  "contributors": [
+  "contributors": [{
+      "name": "Johannes Konert"
+    },
     {
       "name": "Denny Hoertz",
       "email": "d.hoertz@gmx.de",
@@ -28,15 +30,21 @@
   "bugs": {
     "url": "https://github.com/benjilopez/mul2/issues"
   },
-  "license": "MIT",
-  "dependencies": {
-    "body-parser": "~1.13.2",
-    "debug": "~2.2.0",
-    "express": "~4.13.1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/benjilopez/mul2.git"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "should": "^7.1.1",
+    "should-http": "0.0.4",
+    "supertest": "^1.1.0"
   },
   "keywords": [
     "mul2",

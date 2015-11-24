@@ -8,9 +8,12 @@
  *
  *  All methods throw Errors if something went wrong.
  *  Elements stored in store are expected to have an .id property with a numeric value > 0 (except on insert(..))
- @author Johannes Konert
- @licence  CC BY-SA 4.0
- @fires Error in methods if something went wrong
+ * @author Johannes Konert
+ * @licence  CC BY-SA 4.0
+ *
+ * @fires Error in methods if something went wrong
+ * @module blackbox/store
+ * @type {Object}
  */
 "use strict";
 
@@ -23,49 +26,10 @@ var globalCounter = (function() {
 
 })();
 
-// some default store content
-var tweets = [
-    {   id: globalCounter(),
-        message: "Hello world tweet",
-        user_id: 106
-    },
-    {   id: globalCounter(),
-        message: "Another nice tweet",
-        user_id: 107
-    },
-    {   id: globalCounter(),
-        message: "I like ice cream",
-        user_id: 108
-    },
-    {   id: globalCounter(),
-        message: "Justin Bieber is canadian!",
-        user_id: 106
-    },
-    {   id: globalCounter(),
-        message: "I love you Emma Stone <3",
-        user_id: 106
-    }
-];
-var users = [
-    {   id: globalCounter(),
-        firstname: "Super",
-        lastname: "Woman"
-    },
-    {   id: globalCounter(),
-        firstname: "Jane",
-        lastname: "Doe"
-    }
-    ,
-    {   id: globalCounter(),
-        firstname: "Albert",
-        lastname: "Einstein"
-    }
-];
-
 // our "in memory database" is a simple object!
 var memory = {};
-memory.tweets = tweets;
-memory.users = users;
+// some default store content could be added here
+
 
 // private helper functions
 var checkElement = function(element) {
@@ -74,37 +38,6 @@ var checkElement = function(element) {
     }
 };
 
-// appending links info to the elemens
-var appendLinksInfo = function(type, element){
-    switch (type){
-        case "users":
-            element.href = "http://localhost:3000/users/" + element.id + "/"
-            element.links = [{
-                    rel: "self",
-                    href: "http://localhost:3000/users/" + element.id + "/"
-                }, {
-                    rel: "user.tweets",
-                    href: "http://localhost:3000/users/" + element.id + "/tweets/"
-                }
-            ];
-            break;
-        case "tweets":
-            element.href = "http://localhost:3000/tweets/" + element.id + "/"
-            element.links = [{
-                rel: "self",
-                href: "http://localhost:3000/tweets/" + element.id + "/"
-            }, {
-                rel: "user",
-                href: "http://localhost:3000/users/" + element.user_id + "/"
-            },{
-                rel: "user.tweets",
-                href: "http://localhost:3000/users/" + element.user_id + "/tweets/"
-            }
-            ];
-            break;
-    }
-    return element;
-};
 var store = {
 
 
@@ -114,27 +47,14 @@ var store = {
      * @param {string or number} id - (optional) ID of element to select only one
      * @returns {[],{}, undefined} - undefined if nothing found, array of objects or one object only if ID was given
      */
-    select: function(type, id, id_type) {
+    select: function(type, id) {
         var list = memory[type];
         id = parseInt(id);
         if (list != undefined && list.length > 0 && !isNaN(id)) {
-            if(id_type !== undefined && id_type === "user_id"){
-                list = list.filter(function (element) {
-                    return element.user_id === id;
-                });
-                list =  (list.length === 0)? undefined: list
-            } else {
-                list = list.filter(function (element) {
-                    return element.id === id;
-                });
-                return  (list.length === 0)? undefined: appendLinksInfo(type, list[0])
-            }
-            ; // only return the 1 found element; prevent empty []
-        }
-        if(list != undefined){
-            list.forEach(function (element) {
-                return appendLinksInfo(type, element);
+            list = list.filter(function(element) {
+                return element.id === id;
             });
+            list =  (list.length === 0)? undefined: list[0]; // only return the 1 found element; prevent empty []
         }
         return list; // may contain undefined, object or array;
     },
@@ -152,6 +72,7 @@ var store = {
             throw new Error("element already has an .id value, but should not on insert!",e);
         }
         element.id = globalCounter();
+        memory[type] = memory[type] || [];
         memory[type].push(element);
         return element.id;
     },
@@ -179,6 +100,7 @@ var store = {
             }
         });
         // case of index = null cannot happen as it was found before, but...
+        newElement.id = id; // for type safety
         if (!newElement.id == id) {
             throw new Error("element.id and given id are not identical! Cannot replace");
         }
@@ -206,7 +128,8 @@ var store = {
                 index = i;
             }
         });
-        delete memory[type][index];
+        if (index === null) throw new Error("element to remove not found in store "+ type + " "+ id);
+        memory[type].splice(index, 1);
         return this;
     }
 };
