@@ -28,11 +28,24 @@ var internalKeys = {id: 'number', timestamp: 'number'};
 // routes **********************
 videos.route('/')
     .get(function(req, res, next) {
-
+        res.json(store.select('videos'));
         next();
     })
     .post(function(req,res,next) {
-
+        if (req.body.title === undefined || req.body.title === "" || req.body.src === undefined || req.body.src === "" ||
+            req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
+            res.status(400).json("Bad request");
+        }/*
+        if (req.body.playcount === undefined || req.body.playcount === "" || req.body.playcount < 0) {
+            TODO set playcount default to 0
+        }
+        if (req.body.ranking === undefined || req.body.ranking === "" || req.body.ranking < 0) {
+            TODO set ranking default to 0
+        }*/ else {
+            var id = store.insert('videos', req.body);
+            // set code 201 "created" and send the item back
+            res.status(201).json(store.select('videos', id));
+        }
         next();
     });
 
