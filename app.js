@@ -25,9 +25,8 @@ var store = require('./blackbox/store.js');
 var restAPIchecks = require('./restapi/request-checks.js');
 var videos = require('./routes/videos');
 
-// global variables TODO(?) Vorbereitung Punkt 2 *****
+// global variables
 process.env.NODE_ENV = 'development';
-window.debug = require('debug');
 debug.enable = ('me2u4:*');
 
 // app creation
