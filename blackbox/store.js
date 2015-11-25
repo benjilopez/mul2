@@ -28,12 +28,12 @@ var globalCounter = (function() {
 
 var videos = [
     {
-        id: globalCounter(), // (Number, von Außen nicht setzbar, automatisch bei POST)
+        id: globalCounter(), // (Number, von Auï¿½en nicht setzbar, automatisch bei POST)
         title: 'Super sweet cat video', // (String, required)
         description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
         src: 'http://www.cat-videos.com', // (String, required)
         length: 150, // (positiveNumber in seconds, required)
-        timestamp: Date.now(), // (Number, nicht von Außen setzbar, automatisch bei POST)
+        timestamp: Date.now(), // (Number, nicht von Auï¿½en setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
     }
@@ -147,10 +147,6 @@ var store = {
     }
 
 
-};
-
-var getTimeStamp = function(){
-    return Math.floor(Date.now() / 1000);
 };
 
 module.exports = store; // let require use the store object

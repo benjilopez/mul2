@@ -16,6 +16,7 @@
 var express = require('express');
 var logger = require('debug')('me2u4:videos');
 var store = require('../blackbox/store');
+var utils = require('../utils/utils');
 
 var videos = express.Router();
 
@@ -23,6 +24,7 @@ var videos = express.Router();
 var requiredKeys = {title: 'string', src: 'string', length: 'number'};
 var optionalKeys = {description: 'string', playcount: 'number', ranking: 'number'};
 var internalKeys = {id: 'number', timestamp: 'number'};
+
 
 
 // routes **********************
@@ -35,39 +37,20 @@ videos.route('/')
 
         var playcount = parseInt(req.body.playcount);
         var ranking = parseInt(req.body.ranking);
-        var message = undefined;
-
-        var errorMessage = function (message) {
-            res.status(400).json(
-                {
-                    error: {
-                        message: "missing parameters: " + message,
-                        code: '400'
-                    }
-                });
-        };
-
-        var checkErrorMessageLenght = function(newMessage){
-            if(message === undefined){
-                message = newMessage;
-            }else{
-                message = ", " + newMessage;
-            }
-        };
 
         if (req.body.title === undefined || req.body.title === "") {
-           checkErrorMessageLenght("title");
+           utils.checkErrorMessageLenght("title");
         }
 
         if (req.body.src === undefined || req.body.src === "") {
-            checkErrorMessageLenght("src");
+            utils.checkErrorMessageLenght("src");
         }
 
         if (req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
-            checkErrorMessageLenght("lenght");
+            utils.checkErrorMessageLenght("length");
         }
 
-        if (message === undefined) {
+        if (utils.noError()) {
             if (!(playcount instanceof Number) || playcount < 0) {
                 req.body.playcount = 0;
             }
@@ -82,7 +65,9 @@ videos.route('/')
             // set code 201 "created" and send the item back
             res.status(201).json(store.select('videos', id));
         } else {
-            errorMessage(message);
+
+            utils.sendErrorMessage(400, res, "missing parameters: ");
+
         }
 
         next();

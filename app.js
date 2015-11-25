@@ -7,7 +7,7 @@
  * NODE_ENV=development
  * debug=me2u4:*
  *
- * @authors Johannes Konert, Denny Hörtz, Toni Kluth, Benjamin Lopez
+ * @authors Johannes Konert, Denny Hï¿½rtz, Toni Kluth, Benjamin Lopez
  * @licence CC BY-SA 4.0
  *
  */
