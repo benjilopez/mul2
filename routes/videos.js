@@ -27,11 +27,11 @@ var internalKeys = {id: 'number', timestamp: 'number'};
 
 // routes **********************
 videos.route('/')
-    .get(function(req, res, next) {
+    .get(function (req, res, next) {
         res.json(store.select('videos'));
         next();
     })
-    .post(function(req,res,next) {
+    .post(function (req, res, next) {
 
         var playcount = parseInt(req.body.playcount);
         var ranking = parseInt(req.body.ranking);
@@ -40,12 +40,17 @@ videos.route('/')
             req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
             res.status(400).json("Bad request");
         }
-        if (!(playcount instanceof Number) || playcount < 0) {
-            playcount = 0;
-        }
-        if (!(ranking instanceof Number) || ranking < 0) {
-            ranking = 0;
-        } else {
+        else {
+            if (!(playcount instanceof Number) || playcount < 0) {
+                req.body.playcount = 0;
+            }
+            if (!(ranking instanceof Number) || ranking < 0) {
+                req.body.ranking = 0;
+            }
+            if (req.body.description === undefined) {
+                req.body.description = "";
+            }
+            req.body.timestamp = Math.floor(Date.now() / 1000);
             var id = store.insert('videos', req.body);
             // set code 201 "created" and send the item back
             res.status(201).json(store.select('videos', id));
@@ -55,7 +60,7 @@ videos.route('/')
 
 
 // this middleware function can be used, if you like or remove it
-videos.use(function(req, res, next){
+videos.use(function (req, res, next) {
     // if anything to send has been added to res.locals.items
     if (res.locals.items) {
         // then we send it as json and remove it

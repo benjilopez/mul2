@@ -145,5 +145,12 @@ var store = {
         memory[type].splice(index, 1);
         return this;
     }
+
+
 };
+
+var getTimeStamp = function(){
+    return Math.floor(Date.now() / 1000);
+};
+
 module.exports = store; // let require use the store object
