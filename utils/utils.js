@@ -38,6 +38,9 @@ var utils = {
             });
 
         message = undefined;
+    },
+    getTimeStamp: function(){
+        return Date.now();
     }
 };
 

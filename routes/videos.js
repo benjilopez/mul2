@@ -60,7 +60,7 @@ videos.route('/')
             if (req.body.description === undefined) {
                 req.body.description = "";
             }
-            req.body.timestamp = Date.now();
+            req.body.timestamp = utils.getTimeStamp();
             var id = store.insert('videos', req.body);
             // set code 201 "created" and send the item back
             res.status(201).json(store.select('videos', id));
