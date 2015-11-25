@@ -35,12 +35,39 @@ videos.route('/')
 
         var playcount = parseInt(req.body.playcount);
         var ranking = parseInt(req.body.ranking);
+        var message = undefined;
 
-        if (req.body.title === undefined || req.body.title === "" || req.body.src === undefined || req.body.src === "" ||
-            req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
-            res.status(400).json("Bad request");
+        var errorMessage = function (message) {
+            res.status(400).json(
+                {
+                    error: {
+                        message: "missing parameters: " + message,
+                        code: '400'
+                    }
+                });
+        };
+
+        var checkErrorMessageLenght = function(newMessage){
+            if(message === undefined){
+                message = newMessage;
+            }else{
+                message = ", " + newMessage;
+            }
+        };
+
+        if (req.body.title === undefined || req.body.title === "") {
+           checkErrorMessageLenght("title");
         }
-        else {
+
+        if (req.body.src === undefined || req.body.src === "") {
+            checkErrorMessageLenght("src");
+        }
+
+        if (req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
+            checkErrorMessageLenght("lenght");
+        }
+
+        if (message === undefined) {
             if (!(playcount instanceof Number) || playcount < 0) {
                 req.body.playcount = 0;
             }
@@ -50,11 +77,14 @@ videos.route('/')
             if (req.body.description === undefined) {
                 req.body.description = "";
             }
-            req.body.timestamp = Math.floor(Date.now() / 1000);
+            req.body.timestamp = Date.now();
             var id = store.insert('videos', req.body);
             // set code 201 "created" and send the item back
             res.status(201).json(store.select('videos', id));
+        } else {
+            errorMessage(message);
         }
+
         next();
     });
 

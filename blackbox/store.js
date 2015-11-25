@@ -33,7 +33,7 @@ var videos = [
         description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
         src: 'http://www.cat-videos.com', // (String, required)
         length: 150, // (positiveNumber in seconds, required)
-        timestamp: Math.floor(Date.now() / 1000), // (Number, nicht von Auﬂen setzbar, automatisch bei POST)
+        timestamp: Date.now(), // (Number, nicht von Auﬂen setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
     }
