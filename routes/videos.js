@@ -29,9 +29,6 @@ var otherValidPars = ['filter', 'offset', 'limit'];
 
 // helper functions
 var validateVideoRequest = function (req, res, callback) {
-    var playcount = parseInt(req.body.playcount);
-    var ranking = parseInt(req.body.ranking);
-
     if (req.body.title === undefined || req.body.title === "") {
         utils.checkErrorMessageLength("title");
     }
@@ -45,10 +42,10 @@ var validateVideoRequest = function (req, res, callback) {
     }
 
     if (utils.noError()) {
-        if (!(typeof playcount === "number") || playcount < 0) {
+        if (!req.body.playcount || parseInt(req.body.playcount) < 0) {
             req.body.playcount = 0;
         }
-        if (!(typeof ranking === "number") || ranking < 0) {
+        if (!req.body.ranking || parseInt(req.body.ranking) < 0) {
             req.body.ranking = 0;
         }
         if (req.body.description === undefined) {
