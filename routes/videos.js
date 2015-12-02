@@ -31,15 +31,15 @@ var validateVideoRequest = function(req, res, callback){
     var ranking = parseInt(req.body.ranking);
 
     if (req.body.title === undefined || req.body.title === "") {
-        utils.checkErrorMessageLenght("title");
+        utils.checkErrorMessageLength("title");
     }
 
     if (req.body.src === undefined || req.body.src === "") {
-        utils.checkErrorMessageLenght("src");
+        utils.checkErrorMessageLength("src");
     }
 
     if (req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
-        utils.checkErrorMessageLenght("length");
+        utils.checkErrorMessageLength("length");
     }
 
     if (utils.noError()) {
@@ -75,19 +75,17 @@ videos.route('/')
             res.status(201).json(store.select('videos', id));
         });
 
-        next();
     })
     .put(function(req, res, next){
         validateVideoRequest(req, res, function(){
             req.body.timestamp = utils.getTimeStamp();
-            //res.status(201).json(store.replace('videos', req.body.id, req.body)); //TODO Richtiger Statuscode?
-            res.status(203).json(store.select('videos', req.body.id));
+            store.replace('videos', req.body.id, req.body);
+            res.status(201).json(store.select('videos', req.body.id));
         });
     })
     .delete(function(req, res, next){
-        validateVideoRequest(req, res, function(){
-
-        });
+        store.remove('videos', req.body.id);
+        res.status(204).end();
     });
 
 
@@ -101,7 +99,7 @@ videos.use(function (req, res, next) {
     } else {
         // otherwise we set status to no-content
         res.set('Content-Type', 'application/json');
-        res.status(204).end(); // no content;
+        res.status(201).end(); // no content;
     }
 });
 

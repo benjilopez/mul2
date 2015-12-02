@@ -9,7 +9,7 @@ var message = undefined;
 var utils = {
 
 
-    checkErrorMessageLenght: function (newMessage) {
+    checkErrorMessageLength: function (newMessage) {
         if (message === undefined) {
             message = newMessage;
         } else {
@@ -41,6 +41,9 @@ var utils = {
     },
     getTimeStamp: function(){
         return Date.now();
+    },
+    getCopyOfObject: function(original){
+        return JSON.parse(JSON.stringify(original));
     }
 };
 
