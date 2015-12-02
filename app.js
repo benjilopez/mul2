@@ -24,6 +24,7 @@ var debug = require('debug')('me2u4:server');
 var store = require('./blackbox/store.js');
 var restAPIchecks = require('./restapi/request-checks.js');
 var videos = require('./routes/videos');
+var comments = require('./routes/comments');
 
 // global variables
 process.env.NODE_ENV = 'development';
@@ -46,7 +47,7 @@ app.use(restAPIchecks);
 
 // Routes ******************************************************
 app.use('/videos', videos);
-
+app.use('/comments', comments);
 
 
 
