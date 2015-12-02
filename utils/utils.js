@@ -24,7 +24,10 @@ var utils = {
         var errorMessage;
 
         if (description !== undefined) {
-            errorMessage = description + message;
+            errorMessage = description;
+            if(message !== undefined){
+                errorMessage += message;
+            }
         } else {
             errorMessage = message;
         }

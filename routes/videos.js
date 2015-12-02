@@ -1,6 +1,6 @@
 /** This module defines the routes for videos using the store.js as db memory
  *
- * @author Johannes Konert
+ * @author Denny Hörtz, Toni Kluth, Benjamin Lopez
  * @licence CC BY-SA 4.0
  *
  * @module routes/videos
@@ -24,9 +24,10 @@ var videos = express.Router();
 var requiredKeys = {title: 'string', src: 'string', length: 'number'};
 var optionalKeys = {description: 'string', playcount: 'number', ranking: 'number'};
 var internalKeys = {id: 'number', timestamp: 'number'};
+var validFilters = ['title', 'src', 'length', 'description', 'playcount', 'ranking', 'id', 'timestamp'];
 
 // helper functions
-var validateVideoRequest = function(req, res, callback){
+var validateVideoRequest = function (req, res, callback) {
     var playcount = parseInt(req.body.playcount);
     var ranking = parseInt(req.body.ranking);
 
@@ -63,12 +64,28 @@ var validateVideoRequest = function(req, res, callback){
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
-        res.json(store.select('videos'));
-        next();
+
+        if (req.query.filter !== undefined) {
+            var filters = req.query.filter.split(",");
+            filters.forEach(function (filter) {
+                if (validFilters.indexOf(filter) === -1) {
+                    utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
+                }
+            });
+            res.json(store.select('videos', undefined, filters));
+        }else{
+            res.json(store.select('videos'));
+        }
+
+        //TODO Aufgabe 3a
+        //Object.keys(req.query).forEach(function(key) {
+        //        console.log(key + ": " + req.query[key] + "(" + validFilters.indexOf(key) + ")");
+        //});
+
     })
     .post(function (req, res, next) {
 
-        validateVideoRequest(req, res, function(){
+        validateVideoRequest(req, res, function () {
             req.body.timestamp = utils.getTimeStamp();
             var id = store.insert('videos', req.body);
             // set code 201 "created" and send the item back
@@ -76,14 +93,14 @@ videos.route('/')
         });
 
     })
-    .put(function(req, res, next){
-        validateVideoRequest(req, res, function(){
+    .put(function (req, res, next) {
+        validateVideoRequest(req, res, function () {
             req.body.timestamp = utils.getTimeStamp();
             store.replace('videos', req.body.id, req.body);
             res.status(201).json(store.select('videos', req.body.id));
         });
     })
-    .delete(function(req, res, next){
+    .delete(function (req, res, next) {
         store.remove('videos', req.body.id);
         res.status(204).end();
     });

@@ -18,9 +18,9 @@
 "use strict";
 
 // a singleton for ID generation
-var globalCounter = (function() {
+var globalCounter = (function () {
     var i = 100;
-    return function() {
+    return function () {
         return ++i;
     }
 
@@ -45,7 +45,7 @@ var memory = {};
 memory.videos = videos;
 
 // private helper functions
-var checkElement = function(element) {
+var checkElement = function (element) {
     if (typeof(element) !== 'object') {
         throw new Error('Element is not an object to store', element);
     }
@@ -60,15 +60,35 @@ var store = {
      * @param {string or number} id - (optional) ID of element to select only one
      * @returns {[],{}, undefined} - undefined if nothing found, array of objects or one object only if ID was given
      */
-    select: function(type, id) {
+    select: function (type, id, filters) {
         var list = memory[type];
         id = parseInt(id);
         if (list != undefined && list.length > 0 && !isNaN(id)) {
-            list = list.filter(function(element) {
+            list = list.filter(function (element) {
                 return element.id === id;
             });
-            list =  (list.length === 0)? undefined: list[0]; // only return the 1 found element; prevent empty []
+            list = (list.length === 0) ? undefined : list[0]; // only return the 1 found element; prevent empty []
         }
+
+        if (filters !== undefined) {
+
+            var tmpList = [];
+            var count = 0;
+
+            list.forEach(function (obj) {
+                var newObject = {};
+
+                Object.keys(obj).forEach(function (key) {
+                    if (filters.indexOf(key) !== -1) {
+                        newObject[key] = obj[key];
+                    }
+                });
+                tmpList[count++] = newObject;
+            });
+
+            list = tmpList;
+        }
+
         return list; // may contain undefined, object or array;
     },
 
@@ -79,10 +99,10 @@ var store = {
      * @param {object} element
      * @returns {Number} the new id of the inserted element as a Number
      */
-    insert: function(type, element) {
+    insert: function (type, element) {
         checkElement(element);
         if (element.id !== undefined) {
-            throw new Error("element already has an .id value, but should not on insert!",e);
+            throw new Error("element already has an .id value, but should not on insert!", e);
         }
         element.id = globalCounter();
         memory[type] = memory[type] || [];
@@ -98,16 +118,16 @@ var store = {
      * @param {object} newElement  needs to have .id property of same value as id
      * @returns {this} the store object itself for pipelining
      */
-    replace: function(type, id, newElement) {
+    replace: function (type, id, newElement) {
         var index = null;
         checkElement(newElement);
         var found = store.select(type, id);
         if (found === undefined) {
-            throw new Error('element with id '+id+' does not exist in store type '+type, newElement);
+            throw new Error('element with id ' + id + ' does not exist in store type ' + type, newElement);
         }
         id = parseInt(id);
         // now get the index of the element
-        memory[type].forEach(function(item, i) {
+        memory[type].forEach(function (item, i) {
             if (item.id === id) {
                 index = i;
             }
@@ -128,20 +148,20 @@ var store = {
      * @param {Number} id numerical id of element to remove
      * @returns {this} store object itself for pipelining
      */
-    remove: function(type, id) {
+    remove: function (type, id) {
         var index = null;
         var found = store.select(type, id);
         if (found === undefined) {
-            throw new Error('element with id '+id+' does not exist in store type '+type);
+            throw new Error('element with id ' + id + ' does not exist in store type ' + type);
         }
         id = parseInt(id);
         // now get the index of the element
-        memory[type].forEach(function(item, i) {
+        memory[type].forEach(function (item, i) {
             if (item.id === id) {
                 index = i;
             }
         });
-        if (index === null) throw new Error("element to remove not found in store "+ type + " "+ id);
+        if (index === null) throw new Error("element to remove not found in store " + type + " " + id);
         memory[type].splice(index, 1);
         return this;
     }
