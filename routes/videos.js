@@ -25,6 +25,7 @@ var requiredKeys = {title: 'string', src: 'string', length: 'number'};
 var optionalKeys = {description: 'string', playcount: 'number', ranking: 'number'};
 var internalKeys = {id: 'number', timestamp: 'number'};
 var validFilters = ['title', 'src', 'length', 'description', 'playcount', 'ranking', 'id', 'timestamp'];
+var otherValidPars = ['filter', 'offset', 'limit'];
 
 // helper functions
 var validateVideoRequest = function (req, res, callback) {
@@ -44,10 +45,10 @@ var validateVideoRequest = function (req, res, callback) {
     }
 
     if (utils.noError()) {
-        if (!(playcount instanceof Number) || playcount < 0) {
+        if (!(typeof playcount === "number") || playcount < 0) {
             req.body.playcount = 0;
         }
-        if (!(ranking instanceof Number) || ranking < 0) {
+        if (!(typeof ranking === "number") || ranking < 0) {
             req.body.ranking = 0;
         }
         if (req.body.description === undefined) {
@@ -66,6 +67,23 @@ videos.route('/')
     .get(function (req, res, next) {
 
         var tmpList = store.select('videos');
+
+
+        //TODO Aufgabe 3a
+        Object.keys(req.query).forEach(function(key) {
+            if (otherValidPars.indexOf(key) < 0) {
+                if (validFilters.indexOf(key) > -1) {
+                    tmpList = tmpList.filter(function (element) {
+                        if (typeof element[key] === "number") {
+                            return element[key] === parseInt(req.query[key]);
+                        }
+                        return element[key].indexOf(req.query[key]) > -1;
+                    });
+                } else {
+                    utils.sendErrorMessage(400, res, "Invalid filter " + key);
+                }
+            }
+        });
 
         if (req.query.filter !== undefined) {
             var filters = req.query.filter.split(",");
@@ -91,12 +109,8 @@ videos.route('/')
 
         }
 
-        res.json(tmpList);
 
-        //TODO Aufgabe 3a
-        //Object.keys(req.query).forEach(function(key) {
-        //        console.log(key + ": " + req.query[key] + "(" + validFilters.indexOf(key) + ")");
-        //});
+        res.json(tmpList);
 
     })
     .post(function (req, res, next) {
