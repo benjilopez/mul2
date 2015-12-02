@@ -36,6 +36,46 @@ var videos = [
         timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
+    },
+    {
+        id: globalCounter(), // (Number, von Au�en nicht setzbar, automatisch bei POST)
+        title: 'Super sweet cat video', // (String, required)
+        description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
+        src: 'http://www.cat-videos.com', // (String, required)
+        length: 150, // (positiveNumber in seconds, required)
+        timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
+        playcount: 0, // (positiveNumber, optional, default0)
+        ranking: 1 // (positiveNumber, optional,default0)
+    },
+    {
+        id: globalCounter(), // (Number, von Au�en nicht setzbar, automatisch bei POST)
+        title: 'Super sweet cat video', // (String, required)
+        description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
+        src: 'http://www.cat-videos.com', // (String, required)
+        length: 150, // (positiveNumber in seconds, required)
+        timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
+        playcount: 0, // (positiveNumber, optional, default0)
+        ranking: 1 // (positiveNumber, optional,default0)
+    },
+    {
+        id: globalCounter(), // (Number, von Au�en nicht setzbar, automatisch bei POST)
+        title: 'Super sweet cat video', // (String, required)
+        description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
+        src: 'http://www.cat-videos.com', // (String, required)
+        length: 150, // (positiveNumber in seconds, required)
+        timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
+        playcount: 0, // (positiveNumber, optional, default0)
+        ranking: 1 // (positiveNumber, optional,default0)
+    },
+    {
+        id: globalCounter(), // (Number, von Au�en nicht setzbar, automatisch bei POST)
+        title: 'Super sweet cat video', // (String, required)
+        description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
+        src: 'http://www.cat-videos.com', // (String, required)
+        length: 150, // (positiveNumber in seconds, required)
+        timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
+        playcount: 0, // (positiveNumber, optional, default0)
+        ranking: 1 // (positiveNumber, optional,default0)
     }
 ];
 
@@ -60,7 +100,7 @@ var store = {
      * @param {string or number} id - (optional) ID of element to select only one
      * @returns {[],{}, undefined} - undefined if nothing found, array of objects or one object only if ID was given
      */
-    select: function (type, id, filters) {
+    select: function (type, id) {
         var list = memory[type];
         id = parseInt(id);
         if (list != undefined && list.length > 0 && !isNaN(id)) {
@@ -68,25 +108,6 @@ var store = {
                 return element.id === id;
             });
             list = (list.length === 0) ? undefined : list[0]; // only return the 1 found element; prevent empty []
-        }
-
-        if (filters !== undefined) {
-
-            var tmpList = [];
-            var count = 0;
-
-            list.forEach(function (obj) {
-                var newObject = {};
-
-                Object.keys(obj).forEach(function (key) {
-                    if (filters.indexOf(key) !== -1) {
-                        newObject[key] = obj[key];
-                    }
-                });
-                tmpList[count++] = newObject;
-            });
-
-            list = tmpList;
         }
 
         return list; // may contain undefined, object or array;

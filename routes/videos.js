@@ -65,6 +65,8 @@ var validateVideoRequest = function (req, res, callback) {
 videos.route('/')
     .get(function (req, res, next) {
 
+        var tmpList = store.select('videos');
+
         if (req.query.filter !== undefined) {
             var filters = req.query.filter.split(",");
             filters.forEach(function (filter) {
@@ -72,10 +74,24 @@ videos.route('/')
                     utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
                 }
             });
-            res.json(store.select('videos', undefined, filters));
-        }else{
-            res.json(store.select('videos'));
+            tmpList = utils.videoListFiltered(tmpList, filters);
         }
+
+        if(req.query.offset !== undefined || req.query.limit !== undefined){
+
+            if(!utils.regExPNumber(req.query.limit)){
+                utils.sendErrorMessage(400, res, "You have to set 'limit' as a number");
+            }
+
+            if(!utils.regExPNumber(req.query.offset)){
+                utils.sendErrorMessage(400, res, "You have to set 'offset' as a number");
+            }
+
+            tmpList = utils.videoListOffset(tmpList, req.query.offset, req.query.limit);
+
+        }
+
+        res.json(tmpList);
 
         //TODO Aufgabe 3a
         //Object.keys(req.query).forEach(function(key) {
