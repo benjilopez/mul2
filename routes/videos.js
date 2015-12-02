@@ -124,11 +124,7 @@ videos.route('/')
 
     })
     .put(function (req, res, next) {
-        validateVideoRequest(req, res, function () {
-            req.body.timestamp = utils.getTimeStamp();
-            store.replace('videos', req.body.id, req.body);
-            res.status(201).json(store.select('videos', req.body.id));
-        });
+        utils.sendErrorMessage(405, res, "Forbidden method: POST");
     })
     .delete(function (req, res, next) {
         store.remove('videos', req.body.id);
@@ -136,6 +132,10 @@ videos.route('/')
     });
 
 videos.route('/:id')
+    .get(function(req, res, next) {
+        res.status(200).json(store.select('videos', req.params.id));
+        next();
+    })
     .patch(function(req, res, next) {
         if (req.body.playcount === "+1") {
             var video = store.select('videos', req.params.id);
@@ -144,6 +144,25 @@ videos.route('/:id')
             res.json(video);
         } else {
             utils.sendErrorMessage(400, res, "Bad Formating in body");
+        }
+    })
+    .post(function(req, res, next){
+        utils.sendErrorMessage(405, res, "Forbidden method: POST");
+    })
+    .put(function(req, res, next) {
+        try {
+            store.replace('videos', req.params.id, req.body);
+        }catch(error){
+            utils.sendErrorMessage(405, res, "Invalid id");
+        }
+        res.status(200).json(store.select('videos', req.params.id));
+    })
+    .delete(function (req, res, next) {
+        try {
+            store.remove('videos', req.params.id);
+            res.set('Content-Type', 'application/json').status(204).end();
+        }catch(error){
+            utils.sendErrorMessage(404, res, "Invalid id");
         }
     });
 // this middleware function can be used, if you like or remove it
