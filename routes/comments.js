@@ -14,7 +14,7 @@
 
 // modules
 var express = require('express');
-var logger = require('debug')('me2u4:videos');
+var logger = require('debug')('me2u4:comments');
 var store = require('../blackbox/store');
 var utils = require('../utils/utils');
 
