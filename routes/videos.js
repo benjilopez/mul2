@@ -62,11 +62,7 @@ var validateVideoRequest = function (req, res, callback) {
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
-
         var tmpList = store.select('videos');
-
-
-        //TODO Aufgabe 3a
         Object.keys(req.query).forEach(function(key) {
             if (otherValidPars.indexOf(key) < 0) {
                 if (validFilters.indexOf(key) > -1) {
@@ -130,7 +126,17 @@ videos.route('/')
 
 videos.route('/:id')
     .get(function(req, res, next) {
-        res.status(200).json(store.select('videos', req.params.id));
+        var tmpVideo = store.select('videos', req.params.id);
+        if (req.query.filter !== undefined) {
+            var filters = req.query.filter.split(",");
+            filters.forEach(function (filter) {
+                if (validFilters.indexOf(filter) === -1) {
+                    utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
+                }
+            });
+            tmpVideo = utils.videoFiltered(tmpVideo, filters);
+        }
+        res.status(200).json(tmpVideo);
         next();
     })
     .patch(function(req, res, next) {

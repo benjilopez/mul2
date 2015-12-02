@@ -50,20 +50,22 @@ var utils = {
     },
     videoListFiltered: function (list, filters) {
         var tmpList = [];
-        var count = 0;
+        var count = -1;
 
         list.forEach(function (obj) {
-            var newObject = {};
-
-            Object.keys(obj).forEach(function (key) {
-                if (filters.indexOf(key) !== -1) {
-                    newObject[key] = obj[key];
-                }
-            });
-            tmpList[count++] = newObject;
+            tmpList[count++] = videoFiltered(obj, filters);
         });
 
         return tmpList;
+    },
+    videoFiltered: function(video, filters){
+        var newObject = {};
+        Object.keys(video).forEach(function (key) {
+            if (filters.indexOf(key) !== -1) {
+                newObject[key] = video[key];
+            }
+        });
+        return newObject;
     },
     videoListOffset: function (list, offset, limit) {
         var tmpList = [];
