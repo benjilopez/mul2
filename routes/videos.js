@@ -25,7 +25,40 @@ var requiredKeys = {title: 'string', src: 'string', length: 'number'};
 var optionalKeys = {description: 'string', playcount: 'number', ranking: 'number'};
 var internalKeys = {id: 'number', timestamp: 'number'};
 
+// helper functions
+var validateVideoRequest = function(req, res, callback){
+    var playcount = parseInt(req.body.playcount);
+    var ranking = parseInt(req.body.ranking);
 
+    if (req.body.title === undefined || req.body.title === "") {
+        utils.checkErrorMessageLenght("title");
+    }
+
+    if (req.body.src === undefined || req.body.src === "") {
+        utils.checkErrorMessageLenght("src");
+    }
+
+    if (req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
+        utils.checkErrorMessageLenght("length");
+    }
+
+    if (utils.noError()) {
+        if (!(playcount instanceof Number) || playcount < 0) {
+            req.body.playcount = 0;
+        }
+        if (!(ranking instanceof Number) || ranking < 0) {
+            req.body.ranking = 0;
+        }
+        if (req.body.description === undefined) {
+            req.body.description = "";
+        }
+        callback();
+    } else {
+
+        utils.sendErrorMessage(400, res, "missing parameters: ");
+
+    }
+}
 
 // routes **********************
 videos.route('/')
@@ -35,42 +68,26 @@ videos.route('/')
     })
     .post(function (req, res, next) {
 
-        var playcount = parseInt(req.body.playcount);
-        var ranking = parseInt(req.body.ranking);
-
-        if (req.body.title === undefined || req.body.title === "") {
-           utils.checkErrorMessageLenght("title");
-        }
-
-        if (req.body.src === undefined || req.body.src === "") {
-            utils.checkErrorMessageLenght("src");
-        }
-
-        if (req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
-            utils.checkErrorMessageLenght("length");
-        }
-
-        if (utils.noError()) {
-            if (!(playcount instanceof Number) || playcount < 0) {
-                req.body.playcount = 0;
-            }
-            if (!(ranking instanceof Number) || ranking < 0) {
-                req.body.ranking = 0;
-            }
-            if (req.body.description === undefined) {
-                req.body.description = "";
-            }
+        validateVideoRequest(req, res, function(){
             req.body.timestamp = utils.getTimeStamp();
             var id = store.insert('videos', req.body);
             // set code 201 "created" and send the item back
             res.status(201).json(store.select('videos', id));
-        } else {
-
-            utils.sendErrorMessage(400, res, "missing parameters: ");
-
-        }
+        });
 
         next();
+    })
+    .put(function(req, res, next){
+        validateVideoRequest(req, res, function(){
+            req.body.timestamp = utils.getTimeStamp();
+            //res.status(201).json(store.replace('videos', req.body.id, req.body)); //TODO Richtiger Statuscode?
+            res.status(203).json(store.select('videos', req.body.id));
+        });
+    })
+    .delete(function(req, res, next){
+        validateVideoRequest(req, res, function(){
+
+        });
     });
 
 
