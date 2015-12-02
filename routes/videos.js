@@ -135,7 +135,17 @@ videos.route('/')
         res.status(204).end();
     });
 
-
+videos.route('/:id')
+    .patch(function(req, res, next) {
+        if (req.body.playcount === "+1") {
+            var video = store.select('videos', req.params.id);
+            video.playcount++;
+            store.replace('videos', video.id, video);
+            res.json(video);
+        } else {
+            utils.sendErrorMessage(400, res, "Bad Formating in body");
+        }
+    });
 // this middleware function can be used, if you like or remove it
 videos.use(function (req, res, next) {
     // if anything to send has been added to res.locals.items
