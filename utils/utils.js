@@ -53,7 +53,7 @@ var utils = {
         var count = -1;
 
         list.forEach(function (obj) {
-            tmpList[count++] = videoFiltered(obj, filters);
+            tmpList[count++] = this.videoFiltered(obj, filters);
         });
 
         return tmpList;
@@ -98,6 +98,12 @@ var utils = {
         }
 
         return tmpList;
+    },
+    validOffset: function(offset, listSize){
+      return this.regExPNumber(offset) && (parseInt(offset) > -1) && parseInt(offset) < listSize;
+    },
+    validLimit: function(limit){
+        return this.regExPNumber(limit) && (parseInt(limit) > 0);
     },
     regExPNumber: function(number){
         var reg = new RegExp("^[0-9]*$");

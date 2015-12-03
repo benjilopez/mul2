@@ -90,11 +90,11 @@ videos.route('/')
 
         if(req.query.offset !== undefined || req.query.limit !== undefined){
 
-            if(!utils.regExPNumber(req.query.limit)){
+            if(req.query.limit !== undefined && !utils.validLimit(req.query.limit)){
                 utils.sendErrorMessage(400, res, "You have to set 'limit' as a number");
             }
 
-            if(!utils.regExPNumber(req.query.offset)){
+            if(req.query.offset !== undefined && !utils.validOffset(req.query.offset, tmpList.length)){
                 utils.sendErrorMessage(400, res, "You have to set 'offset' as a number");
             }
 
