@@ -88,7 +88,7 @@ var utils = {
                         if (i + 1 > offset) {
                             tmpList[tmpList.length] = list[i];
                         }
-                    } else{
+                    } else {
                         tmpList[tmpList.length] = list[i];
                     }
 

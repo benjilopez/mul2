@@ -1,6 +1,6 @@
 /** This module defines the routes for videos using the store.js as db memory
  *
- * @author Denny Hörtz, Toni Kluth, Benjamin Lopez
+ * @author Johannes Konert, Denny Hörtz, Toni Kluth, Benjamin Lopez
  * @licence CC BY-SA 4.0
  *
  * @module routes/videos
@@ -54,16 +54,16 @@ var validateVideoRequest = function (req, res, callback) {
         callback();
     } else {
 
-        utils.sendErrorMessage(400, res, "missing parameters: ");
+        utils.sendErrorMessage(400, res, "Bad request. Missing parameters: ");
 
     }
-}
+};
 
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
         var tmpList = store.select('videos');
-        Object.keys(req.query).forEach(function(key) {
+        Object.keys(req.query).forEach(function (key) {
             if (otherValidPars.indexOf(key) < 0) {
                 if (validFilters.indexOf(key) > -1) {
                     tmpList = tmpList.filter(function (element) {
@@ -88,13 +88,13 @@ videos.route('/')
             tmpList = utils.videoListFiltered(tmpList, filters);
         }
 
-        if(req.query.offset !== undefined || req.query.limit !== undefined){
+        if (req.query.offset !== undefined || req.query.limit !== undefined) {
 
-            if(req.query.limit !== undefined && !utils.validLimit(req.query.limit)){
+            if (req.query.limit !== undefined && !utils.validLimit(req.query.limit)) {
                 utils.sendErrorMessage(400, res, "You have to set 'limit' as a number");
             }
 
-            if(req.query.offset !== undefined && !utils.validOffset(req.query.offset, tmpList.length)){
+            if (req.query.offset !== undefined && !utils.validOffset(req.query.offset, tmpList.length)) {
                 utils.sendErrorMessage(400, res, "You have to set 'offset' as a number");
             }
 
@@ -117,7 +117,8 @@ videos.route('/')
 
     })
     .put(function (req, res, next) {
-        utils.sendErrorMessage(405, res, "Forbidden method: POST");
+        utils.sendErrorMessage(405, res, "Forbidden method: PUT");
+
     })
     .delete(function (req, res, next) {
         store.remove('videos', req.body.id);
@@ -125,7 +126,7 @@ videos.route('/')
     });
 
 videos.route('/:id')
-    .get(function(req, res, next) {
+    .get(function (req, res, next) {
         var tmpVideo = store.select('videos', req.params.id);
         if (req.query.filter !== undefined) {
             var filters = req.query.filter.split(",");
@@ -139,7 +140,7 @@ videos.route('/:id')
         res.status(200).json(tmpVideo);
         next();
     })
-    .patch(function(req, res, next) {
+    .patch(function (req, res, next) {
         if (req.body.playcount === "+1") {
             var video = store.select('videos', req.params.id);
             video.playcount++;
@@ -149,22 +150,25 @@ videos.route('/:id')
             utils.sendErrorMessage(400, res, "Bad Formating in body");
         }
     })
-    .post(function(req, res, next){
+    .post(function (req, res, next) {
         utils.sendErrorMessage(405, res, "Forbidden method: POST");
     })
-    .put(function(req, res, next) {
+    .put(function (req, res, next) {
+        console.log(req.body);
         try {
-            store.replace('videos', req.params.id, req.body);
-        }catch(error){
-            utils.sendErrorMessage(405, res, "Invalid id");
+            validateVideoRequest(req, res, new function () {
+                store.replace('videos', req.params.id, req.body);
+                res.status(200).json(store.select('videos', req.params.id));
+            });
+        } catch (error) {
+                utils.sendErrorMessage(405, res, "Invalid id");
         }
-        res.status(200).json(store.select('videos', req.params.id));
     })
     .delete(function (req, res, next) {
         try {
             store.remove('videos', req.params.id);
             res.set('Content-Type', 'application/json').status(204).end();
-        }catch(error){
+        } catch (error) {
             utils.sendErrorMessage(404, res, "Invalid id");
         }
     });

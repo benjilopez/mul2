@@ -29,6 +29,7 @@ var internalKeys = {id: 'number', timestamp: 'number'};
 var validateCommentRequest = function (req, res, callback) {
     var likes = parseInt(req.body.likes);
     var dislikes = parseInt(req.body.dislikes);
+    var video = undefined;
 
     if (req.body.text === undefined || req.body.text === "") {
         utils.checkErrorMessageLength("text");
@@ -36,9 +37,11 @@ var validateCommentRequest = function (req, res, callback) {
 
     if (req.body.videoid === undefined || req.body.videoid === "") {
         utils.checkErrorMessageLength("videoid");
+    } else {
+        video = store.select("videos", req.body.id);
     }
 
-    if (utils.noError()) {
+    if (utils.noError() && video !== undefined) {
         if (!(likes instanceof Number) || likes < 0) {
             req.body.likes = 0;
         }

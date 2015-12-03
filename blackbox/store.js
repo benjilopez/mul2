@@ -8,7 +8,7 @@
  *
  *  All methods throw Errors if something went wrong.
  *  Elements stored in store are expected to have an .id property with a numeric value > 0 (except on insert(..))
- * @author Johannes Konert
+ * @author Johannes Konert, Denny Hörtz, Toni Kluth, Benjamin Lopez
  * @licence  CC BY-SA 4.0
  *
  * @fires Error in methods if something went wrong
@@ -42,7 +42,7 @@ var videos = [
         title: 'Super sweet cat video', // (String, required)
         description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
         src: 'http://www.cat-videos.com', // (String, required)
-        length: 150, // (positiveNumber in seconds, required)
+        length: 100, // (positiveNumber in seconds, required)
         timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
@@ -52,7 +52,7 @@ var videos = [
         title: 'Super sweet cat video', // (String, required)
         description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
         src: 'http://www.cat-videos.com', // (String, required)
-        length: 150, // (positiveNumber in seconds, required)
+        length: 110, // (positiveNumber in seconds, required)
         timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
@@ -62,7 +62,7 @@ var videos = [
         title: 'Super sweet cat video', // (String, required)
         description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
         src: 'http://www.cat-videos.com', // (String, required)
-        length: 150, // (positiveNumber in seconds, required)
+        length: 130, // (positiveNumber in seconds, required)
         timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
@@ -72,7 +72,7 @@ var videos = [
         title: 'Super sweet cat video', // (String, required)
         description: 'Super sweet cat video makes you go "aawwww"', // (String, optional, default "")
         src: 'http://www.cat-videos.com', // (String, required)
-        length: 150, // (positiveNumber in seconds, required)
+        length: 140, // (positiveNumber in seconds, required)
         timestamp: Date.now(), // (Number, nicht von Au�en setzbar, automatisch bei POST)
         playcount: 0, // (positiveNumber, optional, default0)
         ranking: 1 // (positiveNumber, optional,default0)
