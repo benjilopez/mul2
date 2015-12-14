@@ -15,9 +15,15 @@
 // modules
 var express = require('express');
 var logger = require('debug')('me2u4:videos');
-var store = require('../blackbox/store');
+var store = require('../blackbox/store'); // TODO: remove store
 var utils = require('../utils/utils');
 
+// mongoose                                 TODO: added
+var mongoose = require('mongoose');
+var db = mongoose.connect('mongodb://localhost:27017/mul2');
+var VideoModel = require('../models/videos');
+
+// router
 var videos = express.Router();
 
 // if you like, you can use this for task 1.b:
@@ -26,6 +32,7 @@ var optionalKeys = {description: 'string', playcount: 'number', ranking: 'number
 var internalKeys = {id: 'number', timestamp: 'number'};
 var validFilters = ['title', 'src', 'length', 'description', 'playcount', 'ranking', 'id', 'timestamp'];
 var otherValidPars = ['filter', 'offset', 'limit'];
+
 
 // helper functions
 var validateVideoRequest = function (req, res, callback) {
@@ -62,7 +69,10 @@ var validateVideoRequest = function (req, res, callback) {
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
-        var tmpList = store.select('videos');
+        // var tmpList = store.select('videos'); // TODO: remove store
+        var tmpList = VideoModel.find({}, function (err, items) { // TODO: added
+            res.json(items);
+        });
         Object.keys(req.query).forEach(function (key) {
             if (otherValidPars.indexOf(key) < 0) {
                 if (validFilters.indexOf(key) > -1) {
@@ -102,7 +112,6 @@ videos.route('/')
 
         }
 
-
         res.json(tmpList);
 
     })
@@ -110,9 +119,16 @@ videos.route('/')
 
         validateVideoRequest(req, res, function () {
             req.body.timestamp = utils.getTimeStamp();
-            var id = store.insert('videos', req.body);
+            // var id = store.insert('videos', req.body); // TODO: remove store
+            var video = new VideoModel(req.body); // TODO: added
+            video.save(function (err) { // TODO: added
+                if (!err) {
+                    res.status(201).json(video)
+                }
+                next(err);
+            });
             // set code 201 "created" and send the item back
-            res.status(201).json(store.select('videos', id));
+            // res.status(201).json(store.select('videos', id)); // TODO: remove store
         });
 
     })
@@ -157,16 +173,25 @@ videos.route('/:id')
         console.log(req.body);
         try {
             validateVideoRequest(req, res, new function () {
-                store.replace('videos', req.params.id, req.body);
-                res.status(200).json(store.select('videos', req.params.id));
+                // store.replace('videos', req.params.id, req.body); // TODO: remove store
+                VideoModel.findByIdAndUpdate(req.params.id, req.body, // TODO: added
+                    {new: true},
+                    function (err, item) {
+                        // TODO
+                    });
+                // res.status(200).json(store.select('videos', req.params.id)); // TODO: remove store
             });
         } catch (error) {
-                utils.sendErrorMessage(405, res, "Invalid id");
+            utils.sendErrorMessage(405, res, "Invalid id");
         }
     })
     .delete(function (req, res, next) {
         try {
-            store.remove('videos', req.params.id);
+            // store.remove('videos', req.params.id); // TODO: remove store
+            VideoModel.findByIdAndRemove(req.params._id, // TODO: added
+                function (err, item) {
+                    // TODO
+                });
             res.set('Content-Type', 'application/json').status(204).end();
         } catch (error) {
             utils.sendErrorMessage(404, res, "Invalid id");

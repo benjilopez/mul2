@@ -58,7 +58,7 @@ var utils = {
 
         return tmpList;
     },
-    videoFiltered: function(video, filters){
+    videoFiltered: function (video, filters) {
         var newObject = {};
         Object.keys(video).forEach(function (key) {
             if (filters.indexOf(key) !== -1) {
@@ -99,13 +99,13 @@ var utils = {
 
         return tmpList;
     },
-    validOffset: function(offset, listSize){
-      return this.regExPNumber(offset) && (parseInt(offset) > -1) && parseInt(offset) < listSize;
+    validOffset: function (offset, listSize) {
+        return this.regExPNumber(offset) && (parseInt(offset) > -1) && parseInt(offset) < listSize;
     },
-    validLimit: function(limit){
+    validLimit: function (limit) {
         return this.regExPNumber(limit) && (parseInt(limit) > 0);
     },
-    regExPNumber: function(number){
+    regExPNumber: function (number) {
         var reg = new RegExp("^[0-9]*$");
         return reg.test(number);
     }
