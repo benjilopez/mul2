@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var VideoSchema = new Schema({
-    _id: {type: String, default: Schema.Types.ObjectId},
+    // _id: {type: String, default: Schema.Types.ObjectId}, // TODO
     title: {type: String, required: true},
     description: {type: String, default: ''},
     src: {type: String, required: true},

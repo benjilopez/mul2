@@ -39,9 +39,9 @@
     "body-parser": "~1.13.2",
     "debug": "~2.2.0",
     "express": "~4.13.1",
-    "mongoose": "^4.2.10",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "mongoose": "^4.3.1"
   },
   "devDependencies": {
     "should": "^7.1.1",

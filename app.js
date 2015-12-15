@@ -50,13 +50,10 @@ app.use('/videos', videos);
 app.use('/comments', comments);
 
 
-
-
-
 // (from express-generator boilerplate  standard code)
 // Errorhandling and requests without proper URLs ************************
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     debug('Catching unmatched request to answer with 404');
     var err = new Error('Not Found');
     err.status = 404;
@@ -68,7 +65,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace as JSON response
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         debug('Server responds with error: ', err.stack);
         res.status(err.status || 500);
         res.json({
@@ -82,7 +79,7 @@ if (app.get('env') === 'development') {
 } else {
     // production error handler
     // no stacktraces leaked to user
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.json({
             error: {
@@ -94,9 +91,9 @@ if (app.get('env') === 'development') {
     });
 }
 // Start server ****************************
-app.listen(3000, function(err) {
+app.listen(3000, function (err) {
     if (err !== undefined) {
-        console.log('Error on startup, ',err);
+        console.log('Error on startup, ', err);
     }
     else {
         debug('Listening on port 3000');

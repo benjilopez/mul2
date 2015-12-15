@@ -70,66 +70,75 @@ var validateVideoRequest = function (req, res, callback) {
 videos.route('/')
     .get(function (req, res, next) {
         // var tmpList = store.select('videos'); // TODO: remove store
-        var tmpList = VideoModel.find({}, function (err, items) { // TODO: added
+        VideoModel.find({}, function (err, items) { // TODO: added
             res.json(items);
         });
-        Object.keys(req.query).forEach(function (key) {
-            if (otherValidPars.indexOf(key) < 0) {
-                if (validFilters.indexOf(key) > -1) {
-                    tmpList = tmpList.filter(function (element) {
-                        if (typeof element[key] === "number") {
-                            return element[key] === parseInt(req.query[key]);
-                        }
-                        return element[key].indexOf(req.query[key]) > -1;
-                    });
-                } else {
-                    utils.sendErrorMessage(400, res, "Invalid filter " + key);
-                }
-            }
-        });
+        /*Object.keys(req.query).forEach(function (key) {
+         if (otherValidPars.indexOf(key) < 0) {
+         if (validFilters.indexOf(key) > -1) {
+         tmpList = tmpList.filter(function (element) {
+         if (typeof element[key] === "number") {
+         return element[key] === parseInt(req.query[key]);
+         }
+         return element[key].indexOf(req.query[key]) > -1;
+         });
+         } else {
+         utils.sendErrorMessage(400, res, "Invalid filter " + key);
+         }
+         }
+         });
 
-        if (req.query.filter !== undefined) {
-            var filters = req.query.filter.split(",");
-            filters.forEach(function (filter) {
-                if (validFilters.indexOf(filter) === -1) {
-                    utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
-                }
-            });
-            tmpList = utils.videoListFiltered(tmpList, filters);
-        }
+         if (req.query.filter !== undefined) {
+         var filters = req.query.filter.split(",");
+         filters.forEach(function (filter) {
+         if (validFilters.indexOf(filter) === -1) {
+         utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
+         }
+         tmpList = utils.videoListFiltered(tmpList, filters);
+         }
 
-        if (req.query.offset !== undefined || req.query.limit !== undefined) {
+         if (req.query.offset !== undefined || req.query.limit !== undefined) {
 
-            if (req.query.limit !== undefined && !utils.validLimit(req.query.limit)) {
-                utils.sendErrorMessage(400, res, "You have to set 'limit' as a number");
-            }
+         if (req.query.limit !== undefined && !utils.validLimit(req.query.limit)) {
+         utils.sendErrorMessage(400, res, "You have to set 'limit' as a number");
+         }
 
-            if (req.query.offset !== undefined && !utils.validOffset(req.query.offset, tmpList.length)) {
-                utils.sendErrorMessage(400, res, "You have to set 'offset' as a number");
-            }
+         if (req.query.offset !== undefined && !utils.validOffset(req.query.offset, tmpList.length)) {
+         utils.sendErrorMessage(400, res, "You have to set 'offset' as a number");
+         }
 
-            tmpList = utils.videoListOffset(tmpList, req.query.offset, req.query.limit);
+         tmpList = utils.videoListOffset(tmpList, req.query.offset, req.query.limit);
 
-        }
+         }
 
-        res.json(tmpList);
+         res.json(tmpList);
+         });*/
 
     })
     .post(function (req, res, next) {
 
-        validateVideoRequest(req, res, function () {
-            req.body.timestamp = utils.getTimeStamp();
-            // var id = store.insert('videos', req.body); // TODO: remove store
-            var video = new VideoModel(req.body); // TODO: added
-            video.save(function (err) { // TODO: added
-                if (!err) {
-                    res.status(201).json(video)
-                }
-                next(err);
-            });
-            // set code 201 "created" and send the item back
-            // res.status(201).json(store.select('videos', id)); // TODO: remove store
+        var video = new VideoModel({
+            title: req.body.title,
+            description: req.body.decription,
+            src: req.body.src,
+            length: req.body.length,
+            playcount: req.body.playcount,
+            ranking: req.body.ranking
         });
+        video.save(function (err) { // TODO: added
+            if (!err) {
+                res.status(201).json(video)
+            }
+            next(err);
+        });
+
+        // validateVideoRequest(req, res, function () {
+        // req.body.timestamp = utils.getTimeStamp(); // TODO: remove store
+        // var id = store.insert('videos', req.body); // TODO: remove store
+
+        // set code 201 "created" and send the item back
+        // res.status(201).json(store.select('videos', id)); // TODO: remove store
+        // });
 
     })
     .put(function (req, res, next) {
@@ -171,19 +180,32 @@ videos.route('/:id')
     })
     .put(function (req, res, next) {
         console.log(req.body);
-        try {
-            validateVideoRequest(req, res, new function () {
-                // store.replace('videos', req.params.id, req.body); // TODO: remove store
-                VideoModel.findByIdAndUpdate(req.params.id, req.body, // TODO: added
-                    {new: true},
-                    function (err, item) {
-                        // TODO
-                    });
-                // res.status(200).json(store.select('videos', req.params.id)); // TODO: remove store
+        VideoModel.findByIdAndUpdate(req.params.id, req.body, // TODO: added
+            {new: true},
+            function (err, item) {
+                item.title = req.body.title;
+                item.description = req.body.description;
+                item.src = req.body.src;
+                item.length = req.body.length;
+                item.playcount = req.body.playcount;
+                item.ranking = req.body.ranking;
+
+                item.save(function (err) {
+                    if (!err) {
+                        res.status(201).json(video)
+                    }
+                    next(err);
+                });
             });
-        } catch (error) {
-            utils.sendErrorMessage(405, res, "Invalid id");
-        }
+        /* try {
+         validateVideoRequest(req, res, new function () {
+         // store.replace('videos', req.params.id, req.body); // TODO: remove store
+
+         // res.status(200).json(store.select('videos', req.params.id)); // TODO: remove store
+         });
+         } catch (error) {
+         utils.sendErrorMessage(405, res, "Invalid id");
+         } */
     })
     .delete(function (req, res, next) {
         try {
