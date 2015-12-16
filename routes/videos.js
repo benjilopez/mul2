@@ -35,7 +35,7 @@ var otherValidPars = ['filter', 'offset', 'limit'];
 
 
 // helper functions
-var validateVideoRequest = function (req, res, callback) {
+var validateVideoRequest = function (req, res) {
     if (req.body.title === undefined || req.body.title === "") {
         utils.checkErrorMessageLength("title");
     }
@@ -125,29 +125,19 @@ videos.route('/')
             playcount: req.body.playcount,
             ranking: req.body.ranking
         });
-        video.save(function (err) { // TODO: added
+        video.save(function (err, item) { // TODO: added
             if (!err) {
-                res.status(201).json(video)
+                res.status(201).json(item)
             }
             next(err);
         });
 
-        // validateVideoRequest(req, res, function () {
-        // req.body.timestamp = utils.getTimeStamp(); // TODO: remove store
-        // var id = store.insert('videos', req.body); // TODO: remove store
-
-        // set code 201 "created" and send the item back
-        // res.status(201).json(store.select('videos', id)); // TODO: remove store
-        // });
-
     })
     .put(function (req, res, next) {
         utils.sendErrorMessage(405, res, "Forbidden method: PUT");
-
     })
     .delete(function (req, res, next) {
-        store.remove('videos', req.body.id);
-        res.status(204).end();
+        utils.sendErrorMessage(405, res, "Forbidden method: DELETE");
     });
 
 videos.route('/:id')
@@ -165,7 +155,7 @@ videos.route('/:id')
         res.status(200).json(tmpVideo);
         next();
     })
-    .patch(function (req, res, next) {
+    .patch(function (req, res, next) { // TODO old version
         if (req.body.playcount === "+1") {
             var video = store.select('videos', req.params.id);
             video.playcount++;
@@ -179,45 +169,21 @@ videos.route('/:id')
         utils.sendErrorMessage(405, res, "Forbidden method: POST");
     })
     .put(function (req, res, next) {
-        console.log(req.body);
         VideoModel.findByIdAndUpdate(req.params.id, req.body, // TODO: added
             {new: true},
-            function (err, item) {
-                item.title = req.body.title;
-                item.description = req.body.description;
-                item.src = req.body.src;
-                item.length = req.body.length;
-                item.playcount = req.body.playcount;
-                item.ranking = req.body.ranking;
+            function(err, item){
+                if (err) return next(err);
 
-                item.save(function (err) {
-                    if (!err) {
-                        res.status(201).json(video)
-                    }
-                    next(err);
-                });
+                res.status(200).json(item);
             });
-        /* try {
-         validateVideoRequest(req, res, new function () {
-         // store.replace('videos', req.params.id, req.body); // TODO: remove store
-
-         // res.status(200).json(store.select('videos', req.params.id)); // TODO: remove store
-         });
-         } catch (error) {
-         utils.sendErrorMessage(405, res, "Invalid id");
-         } */
     })
     .delete(function (req, res, next) {
-        try {
-            // store.remove('videos', req.params.id); // TODO: remove store
-            VideoModel.findByIdAndRemove(req.params._id, // TODO: added
+            VideoModel.findByIdAndRemove(req.params.id, // TODO: added
                 function (err, item) {
-                    // TODO
+                    if (err) return next(err);
+
+                    res.status(204).end();
                 });
-            res.set('Content-Type', 'application/json').status(204).end();
-        } catch (error) {
-            utils.sendErrorMessage(404, res, "Invalid id");
-        }
     });
 // this middleware function can be used, if you like or remove it
 videos.use(function (req, res, next) {

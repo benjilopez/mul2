@@ -8,7 +8,7 @@ var VideoSchema = new Schema({
     description: {type: String, default: ''},
     src: {type: String, required: true},
     length: {type: Number, required: true},
-    timestamp: {type: Number, default: Date.now()},
+    timestamp: {type: String, default: Date.now()},
     playcount: {type: Number, default: 0},
     ranking: {type: Number, default: 0}
 }, {
