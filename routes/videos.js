@@ -32,6 +32,13 @@ var optionalKeys = {description: 'string', playcount: 'number', ranking: 'number
 var internalKeys = {id: 'number', timestamp: 'number'};
 var validFilters = ['title', 'src', 'length', 'description', 'playcount', 'ranking', 'id', 'timestamp'];
 var otherValidPars = ['filter', 'offset', 'limit'];
+var ignoredFields = ['_id', '__v'];
+var validateKey = "__v";
+
+// helper methods
+var validateVersion = function(req, item){
+  return req.body.hasOwnProperty(validateKey) && req.body[validateKey] === item[validateKey]
+};
 
 // routes **********************
 videos.route('/')
@@ -112,69 +119,97 @@ videos.route('/')
 videos.route('/:id')
     .get(function (req, res, next) {
 
-        VideoModel.findById(req.params.id, function(err, item){
-            if(err) return next(err);
+        VideoModel.findById(req.params.id, function (err, item) {
+            if (err) return next(err);
 
             res.status(200).json(item);
         });
     })
     .patch(function (req, res, next) { // TODO eventuell geht das eleganter? Statt ein neues Object zu erstellen, kann da eventuell Mongoose?
 
-        if(req.body.playcount !== undefined){
-          req.body.playcount = undefined;
-        };
+        VideoModel.findById(req.params.id, function(err, item){
 
-        VideoModel.findByIdAndUpdate(req.params.id, obj, {new: true}, function(err, item){
-            if(err) return next(err);
+            if(validateVersion(req, item)){
 
-            res.status(203).json(item);
+                    req.body.playcount = item.playcount + 1;
+                req.body[validateKey] = item[validateKey] + 1;
+
+                    VideoModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, item) {
+                        if (err) return next(err);
+
+                        res.status(203).json(item);
+                    });
+
+            }else {
+                res.status(409).json({
+                    error: {
+                        message: "property '__v' is not correct or missing",
+                        code: 409
+                    }
+                });
+            }
+
         });
+
     })
     .post(function (req, res, next) {
         utils.sendErrorMessage(405, res, "Forbidden method: POST");
     })
     .put(function (req, res, next) {
 
-        // increment playcount
-        VideoModel.findByIdAndUpdate(req.params.id, {$inc : {playcount : 1}}, function(err){
-            if(err) return next(err);
-        });
+        VideoModel.findById(req.params.id, function (err, item) {
 
-        VideoModel.findById(req.params.id, function(err, item){
+            if (err) return next(err);
 
-            for(var attr in VideoModel.schema.paths){
+            //check for correct __v
+            if (validateVersion(req, item)) {
 
-                if(req.body.hasOwnProperty(attr)){
+                for (var attr in VideoModel.schema.paths) {
 
-                    item[attr] = req.body[attr];
+                    if (ignoredFields.indexOf(attr) > -1) {
 
-                }else{
+                        // field ignored
 
-                    if(VideoModel.schema.path(attr).defaultValue !== null){
-                        item[attr] = VideoModel.schema.path(attr).defaultValue;
+                    } else if (req.body.hasOwnProperty(attr)) {
+                        item[attr] = req.body[attr];
+                    }
+                    else {
+
+                        if (VideoModel.schema.path(attr).defaultValue !== null) {
+                            item[attr] = VideoModel.schema.path(attr).defaultValue;
+                        }
+
                     }
 
                 }
 
-            }
+                item[validateKey] = item[validateKey]+1;
 
-            VideoModel.findByIdAndUpdate(req.params.id, item,
-                {new: true},
-                function(err, item){
-                    if (err) return next(err);
+                VideoModel.findByIdAndUpdate(req.params.id, item,
+                    {new: true},
+                    function (err, item) {
+                        if (err) return next(err);
 
-                    res.status(200).json(item);
+                        res.status(200).json(item);
+                    });
+            } else {
+                res.status(409).json({
+                    error: {
+                        message: "property '__v' is not correct or missing",
+                        code: 409
+                    }
                 });
+            }
         });
 
     })
     .delete(function (req, res, next) {
-            VideoModel.findByIdAndRemove(req.params.id,
-                function (err, item) {
-                    if (err) return next(err);
+        VideoModel.findByIdAndRemove(req.params.id,
+            function (err, item) {
+                if (err) return next(err);
 
-                    res.status(204).end();
-                });
+                res.status(204).end();
+            });
     });
 // this middleware function can be used, if you like or remove it
 videos.use(function (req, res, next) {
