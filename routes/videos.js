@@ -33,46 +33,15 @@ var internalKeys = {id: 'number', timestamp: 'number'};
 var validFilters = ['title', 'src', 'length', 'description', 'playcount', 'ranking', 'id', 'timestamp'];
 var otherValidPars = ['filter', 'offset', 'limit'];
 
-
-// helper functions
-var validateVideoRequest = function (req, res) {
-    if (req.body.title === undefined || req.body.title === "") {
-        utils.checkErrorMessageLength("title");
-    }
-
-    if (req.body.src === undefined || req.body.src === "") {
-        utils.checkErrorMessageLength("src");
-    }
-
-    if (req.body.length === undefined || req.body.length === "" || req.body.length < 0) {
-        utils.checkErrorMessageLength("length");
-    }
-
-    if (utils.noError()) {
-        if (!req.body.playcount || parseInt(req.body.playcount) < 0) {
-            req.body.playcount = 0;
-        }
-        if (!req.body.ranking || parseInt(req.body.ranking) < 0) {
-            req.body.ranking = 0;
-        }
-        if (req.body.description === undefined) {
-            req.body.description = "";
-        }
-        callback();
-    } else {
-
-        utils.sendErrorMessage(400, res, "Bad request. Missing parameters: ");
-
-    }
-};
-
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
-        // var tmpList = store.select('videos'); // TODO: remove store
-        VideoModel.find({}, function (err, items) { // TODO: added
+        VideoModel.find({}, function (err, items) {
             res.json(items);
         });
+
+        // var tmpList = store.select('videos');
+
         /*Object.keys(req.query).forEach(function (key) {
          if (otherValidPars.indexOf(key) < 0) {
          if (validFilters.indexOf(key) > -1) {
@@ -125,9 +94,9 @@ videos.route('/')
             playcount: req.body.playcount,
             ranking: req.body.ranking
         });
-        video.save(function (err, item) { // TODO: added
+        video.save(function (err, item) {
             if (!err) {
-                res.status(201).json(item)
+                res.status(201).json(item);
             }
             next(err);
         });
@@ -142,34 +111,53 @@ videos.route('/')
 
 videos.route('/:id')
     .get(function (req, res, next) {
-        var tmpVideo = store.select('videos', req.params.id);
-        if (req.query.filter !== undefined) {
-            var filters = req.query.filter.split(",");
-            filters.forEach(function (filter) {
-                if (validFilters.indexOf(filter) === -1) {
-                    utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
-                }
-            });
-            tmpVideo = utils.videoFiltered(tmpVideo, filters);
-        }
-        res.status(200).json(tmpVideo);
-        next();
+
+        VideoModel.findById(req.params.id, function(err, item){
+            if(err) return next(err);
+
+            res.status(200).json(item);
+        });
     })
-    .patch(function (req, res, next) { // TODO old version
-        if (req.body.playcount === "+1") {
-            var video = store.select('videos', req.params.id);
-            video.playcount++;
-            store.replace('videos', video.id, video);
-            res.json(video);
-        } else {
-            utils.sendErrorMessage(400, res, "Bad Formating in body");
+    .patch(function (req, res, next) { // TODO eventuell geht das eleganter? Statt ein neues Object zu erstellen, kann da eventuell Mongoose?
+
+        if(req.body.playcount !== undefined){
+          req.body.playcount = undefined;
+        };
+
+        // increment playcount
+        VideoModel.findByIdAndUpdate(req.params.id, {$inc : {playcount : 1}}, function(err){
+            if(err) return next(err);
+        });
+
+        var obj = {};
+
+        if(req.body.title !== undefined){
+            obj.title = req.body.title;
         }
+
+        if(req.body.src !== undefined){
+            obj.src = req.body.src;
+        }
+
+        if(req.body.description !== undefined){
+            obj.description = req.body.description;
+        }
+
+        if(req.body.length !== undefined){
+            obj.length = req.body.length;
+        }
+
+        VideoModel.findByIdAndUpdate(req.params.id, obj, {new: true}, function(err, item){
+            if(err) return next(err);
+
+            res.status(203).json(item);
+        });
     })
     .post(function (req, res, next) {
         utils.sendErrorMessage(405, res, "Forbidden method: POST");
     })
     .put(function (req, res, next) {
-        VideoModel.findByIdAndUpdate(req.params.id, req.body, // TODO: added
+        VideoModel.findByIdAndUpdate(req.params.id, req.body,
             {new: true},
             function(err, item){
                 if (err) return next(err);
@@ -178,7 +166,7 @@ videos.route('/:id')
             });
     })
     .delete(function (req, res, next) {
-            VideoModel.findByIdAndRemove(req.params.id, // TODO: added
+            VideoModel.findByIdAndRemove(req.params.id,
                 function (err, item) {
                     if (err) return next(err);
 
