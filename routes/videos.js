@@ -124,29 +124,6 @@ videos.route('/:id')
           req.body.playcount = undefined;
         };
 
-        // increment playcount
-        VideoModel.findByIdAndUpdate(req.params.id, {$inc : {playcount : 1}}, function(err){
-            if(err) return next(err);
-        });
-
-        var obj = {};
-
-        if(req.body.title !== undefined){
-            obj.title = req.body.title;
-        }
-
-        if(req.body.src !== undefined){
-            obj.src = req.body.src;
-        }
-
-        if(req.body.description !== undefined){
-            obj.description = req.body.description;
-        }
-
-        if(req.body.length !== undefined){
-            obj.length = req.body.length;
-        }
-
         VideoModel.findByIdAndUpdate(req.params.id, obj, {new: true}, function(err, item){
             if(err) return next(err);
 
@@ -157,13 +134,39 @@ videos.route('/:id')
         utils.sendErrorMessage(405, res, "Forbidden method: POST");
     })
     .put(function (req, res, next) {
-        VideoModel.findByIdAndUpdate(req.params.id, req.body,
-            {new: true},
-            function(err, item){
-                if (err) return next(err);
 
-                res.status(200).json(item);
-            });
+        // increment playcount
+        VideoModel.findByIdAndUpdate(req.params.id, {$inc : {playcount : 1}}, function(err){
+            if(err) return next(err);
+        });
+
+        VideoModel.findById(req.params.id, function(err, item){
+
+            for(var attr in VideoModel.schema.paths){
+
+                if(req.body.hasOwnProperty(attr)){
+
+                    item[attr] = req.body[attr];
+
+                }else{
+
+                    if(VideoModel.schema.path(attr).defaultValue !== null){
+                        item[attr] = VideoModel.schema.path(attr).defaultValue;
+                    }
+
+                }
+
+            }
+
+            VideoModel.findByIdAndUpdate(req.params.id, item,
+                {new: true},
+                function(err, item){
+                    if (err) return next(err);
+
+                    res.status(200).json(item);
+                });
+        });
+
     })
     .delete(function (req, res, next) {
             VideoModel.findByIdAndRemove(req.params.id,
