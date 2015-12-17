@@ -43,36 +43,15 @@ var validateVersion = function(req, item){
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
-        VideoModel.find({}, function (err, items) {
+        var query = VideoModel.find({});
+        if(req.query.filter !== undefined){
+            query.select(req.query.filter.replace(","," "));
+        }
+        query.exec(function (err, items) {
             res.json(items);
         });
 
-        // var tmpList = store.select('videos');
-
-        /*Object.keys(req.query).forEach(function (key) {
-         if (otherValidPars.indexOf(key) < 0) {
-         if (validFilters.indexOf(key) > -1) {
-         tmpList = tmpList.filter(function (element) {
-         if (typeof element[key] === "number") {
-         return element[key] === parseInt(req.query[key]);
-         }
-         return element[key].indexOf(req.query[key]) > -1;
-         });
-         } else {
-         utils.sendErrorMessage(400, res, "Invalid filter " + key);
-         }
-         }
-         });
-
-         if (req.query.filter !== undefined) {
-         var filters = req.query.filter.split(",");
-         filters.forEach(function (filter) {
-         if (validFilters.indexOf(filter) === -1) {
-         utils.sendErrorMessage(400, res, "Invalid filter: '" + filter + "'");
-         }
-         tmpList = utils.videoListFiltered(tmpList, filters);
-         }
-
+        /*
          if (req.query.offset !== undefined || req.query.limit !== undefined) {
 
          if (req.query.limit !== undefined && !utils.validLimit(req.query.limit)) {
@@ -88,7 +67,8 @@ videos.route('/')
          }
 
          res.json(tmpList);
-         });*/
+         */
+
 
     })
     .post(function (req, res, next) {
