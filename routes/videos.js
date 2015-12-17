@@ -36,25 +36,25 @@ var ignoredFields = ['_id', '__v'];
 var validateKey = "__v";
 
 // helper methods
-var validateVersion = function(req, item){
-  return req.body.hasOwnProperty(validateKey) && req.body[validateKey] === item[validateKey]
+var validateVersion = function (req, item) {
+    return req.body.hasOwnProperty(validateKey) && req.body[validateKey] === item[validateKey]
 };
 
 // routes **********************
 videos.route('/')
     .get(function (req, res, next) {
         var query = VideoModel.find({});
-        if(req.query.filter !== undefined){
-            query.select(req.query.filter.replace(","," "));
+        if (req.query.filter !== undefined) {
+            query.select(req.query.filter.replace(",", " "));
         }
-        if(req.query.offset !== undefined){
+        if (req.query.offset !== undefined) {
             query.skip(parseInt(req.query.offset));
         }
-        if(req.query.limit !== undefined){
+        if (req.query.limit !== undefined) {
             query.limit(parseInt(req.query.limit));
         }
         query.exec(function (err, items) {
-            res.json(items);
+            res.status(200).json(items);
         });
     })
     .post(function (req, res, next) {
@@ -93,27 +93,17 @@ videos.route('/:id')
     })
     .patch(function (req, res, next) { // TODO eventuell geht das eleganter? Statt ein neues Object zu erstellen, kann da eventuell Mongoose?
 
-        VideoModel.findById(req.params.id, function(err, item){
+        VideoModel.findById(req.params.id, function (err, item) {
+            if (err) return next(err);
 
-            if(validateVersion(req, item)){
+            req.body.playcount = item.playcount + 1;
+            req.body[validateKey] = item[validateKey] + 1;
 
-                    req.body.playcount = item.playcount + 1;
-                req.body[validateKey] = item[validateKey] + 1;
+            VideoModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, item) {
+                if (err) return next(err);
 
-                    VideoModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, item) {
-                        if (err) return next(err);
-
-                        res.status(203).json(item);
-                    });
-
-            }else {
-                res.status(409).json({
-                    error: {
-                        message: "property '__v' is not correct or missing",
-                        code: 409
-                    }
-                });
-            }
+                res.status(203).json(item);
+            });
 
         });
 
@@ -124,7 +114,6 @@ videos.route('/:id')
     .put(function (req, res, next) {
 
         VideoModel.findById(req.params.id, function (err, item) {
-
             if (err) return next(err);
 
             //check for correct __v
@@ -149,7 +138,7 @@ videos.route('/:id')
 
                 }
 
-                item[validateKey] = item[validateKey]+1;
+                //item[validateKey] = item[validateKey] + 1;
 
                 VideoModel.findByIdAndUpdate(req.params.id, item,
                     {new: true},
