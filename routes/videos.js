@@ -47,29 +47,15 @@ videos.route('/')
         if(req.query.filter !== undefined){
             query.select(req.query.filter.replace(","," "));
         }
+        if(req.query.offset !== undefined){
+            query.skip(parseInt(req.query.offset));
+        }
+        if(req.query.limit !== undefined){
+            query.limit(parseInt(req.query.limit));
+        }
         query.exec(function (err, items) {
             res.json(items);
         });
-
-        /*
-         if (req.query.offset !== undefined || req.query.limit !== undefined) {
-
-         if (req.query.limit !== undefined && !utils.validLimit(req.query.limit)) {
-         utils.sendErrorMessage(400, res, "You have to set 'limit' as a number");
-         }
-
-         if (req.query.offset !== undefined && !utils.validOffset(req.query.offset, tmpList.length)) {
-         utils.sendErrorMessage(400, res, "You have to set 'offset' as a number");
-         }
-
-         tmpList = utils.videoListOffset(tmpList, req.query.offset, req.query.limit);
-
-         }
-
-         res.json(tmpList);
-         */
-
-
     })
     .post(function (req, res, next) {
 
